@@ -19,6 +19,11 @@ CorelDRAW uchun **Tez-Tez** plaginiga parol sotadigan bot.
 Foydalanuvchi: `/bekor` — joriy jarayonni bekor qilish.
 
 ## O'rnatish
+**Windows'da eng oson yo'l:** papkadagi `ishga_tushirish.bat` faylini ikki marta bosing.
+U kutubxonalarni o'rnatadi, birinchi marta `.env` faylini yaratib Bloknotda ochadi,
+keyingi safar botni ishga tushiradi.
+
+Qo'lda (Linux / VPS):
 ```bash
 python3 -m venv venv
 source venv/bin/activate          # Windows: venv\Scripts\activate
