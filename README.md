@@ -64,3 +64,7 @@ bir xil bo'lishi shart.
 Bot `polling` rejimida ishlaydi, ochiq port kerak emas: VPS, Railway/Render (worker),
 yoki doim yoqiq kompyuter. Serverda `teztez.db` fayli saqlanib qolishi kerak
 (Railway/Render'da doimiy disk — volume ulang).
+
+## CorelDRAW plaginlari
+- [`corel_plagin/MangaBitmap`](corel_plagin/MangaBitmap/README.md) — rasmlarni RGB/CMYK bitmap qilish
+  (alohida yoki bitta, DPI, ochroq/to'qroq).
