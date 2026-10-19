@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Sunat.cc Plaginlar - Windows mini ilova.
+    .NET Framework 4.8 (Windows 10/11 da oldindan o'rnatilgan), bitta .exe, qo'shimcha DLL'siz.
+    Interfeys XAML'siz, to'liq C# kodida yozilgan: loyiha Windows'da ham, Linux'da ham yig'iladi.
+    Yig'ish:  dotnet build -c Release   ->  bin\Release\net48\SunatPlaginlar.exe
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>SunatPlaginlar</AssemblyName>
+    <RootNamespace>Sunat.Plaginlar</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Product>Sunat.cc Plaginlar</Product>
+    <Company>Sunat.cc</Company>
+    <Version>1.0.0</Version>
+    <Copyright>Sunat.cc</Copyright>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SunatCore\*.cs" Link="SunatCore\%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

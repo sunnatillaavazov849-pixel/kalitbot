@@ -1,0 +1,77 @@
+# Mini ilova (Sunat.cc Plaginlar.exe) ni yig'adi va testlaydi.
+# Natija: Actions -> oxirgi ishga tushirish -> Artifacts -> "Sunat.cc Plaginlar".
+# "miniilova-v1.0.0" kabi teg qo'yilsa, exe Releases sahifasiga ham joylanadi.
+name: Mini ilova
+
+on:
+  push:
+    paths:
+      - "miniilova/**"
+      - "litsenziya.py"
+      - "tools/**"
+      - ".github/workflows/miniilova.yml"
+    tags:
+      - "miniilova-v*"
+  pull_request:
+    paths:
+      - "miniilova/**"
+      - "litsenziya.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Bot testlari
+        run: python -m unittest discover tests -v
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Mini ilovani yig'ish
+        run: dotnet build miniilova/SunatPlaginlar/SunatPlaginlar.csproj -c Release -nologo
+
+      - name: Namuna ZIP (test uchun)
+        shell: bash
+        run: |
+          mkdir -p ziptest
+          printf 'gms-ichi' > ziptest/TezTez.gms
+          python tools/zip_yasash.py --prefix TT --name "Tez-Tez" --gms ziptest/TezTez.gms \
+            --exe miniilova/SunatPlaginlar/bin/Release/net48/SunatPlaginlar.exe --out ziptest/TT.zip
+
+      - name: Python = C# tekshiruvi
+        run: dotnet run --project miniilova/SunatCore.Tests -c Release -- miniilova/testvectors.json ziptest/TT.zip
+
+      - name: Exe nomini tayyorlash
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp "miniilova/SunatPlaginlar/bin/Release/net48/SunatPlaginlar.exe" "dist/Sunat.cc Plaginlar.exe"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Sunat.cc Plaginlar
+          path: dist/Sunat.cc Plaginlar.exe
+          retention-days: 90
+
+      - name: Release (faqat teg bo'lsa)
+        if: startsWith(github.ref, 'refs/tags/miniilova-v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/Sunat.cc Plaginlar.exe

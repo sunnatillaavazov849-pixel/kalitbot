@@ -1,5 +1,49 @@
 {
   "secret": "TestSecret_NotReal_0123456789abc",
+  "choose": [
+    {
+      "uuid": "4c4c4544-0042-3510-8051-b4c04f4a3732",
+      "board": "PF2ZXK8Q",
+      "name": "DESKTOP-1",
+      "volume": 123,
+      "hw": "UUID:4C4C4544-0042-3510-8051-B4C04F4A3732"
+    },
+    {
+      "uuid": "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF",
+      "board": "PF2ZXK8Q",
+      "name": "DESKTOP-1",
+      "volume": 123,
+      "hw": "BB:PF2ZXK8Q"
+    },
+    {
+      "uuid": "00000000-0000-0000-0000-000000000000",
+      "board": " Default string ",
+      "name": "ofis-pc",
+      "volume": -1824371651,
+      "hw": "PC:OFIS-PC:-1824371651"
+    },
+    {
+      "uuid": "03000200-0400-0500-0006-000700080009",
+      "board": "To be filled by O.E.M.",
+      "name": "Ofis-PC",
+      "volume": 42,
+      "hw": "PC:OFIS-PC:42"
+    },
+    {
+      "uuid": "",
+      "board": "",
+      "name": "",
+      "volume": 0,
+      "hw": "PC::0"
+    },
+    {
+      "uuid": "  ",
+      "board": "0000000",
+      "name": "PC2",
+      "volume": 7,
+      "hw": "PC:PC2:7"
+    }
+  ],
   "machine_ids": [
     {
       "hw": "UUID:4C4C4544-0042-3510-8051-B4C04F4A3732",

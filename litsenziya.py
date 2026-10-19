@@ -131,3 +131,24 @@ def parse_request_id(text: str, prefixes) -> tuple[str, str] | None:
         if s.startswith(p) and len(rest) == 8 and all(ch in PW_ALPHA for ch in rest):
             return p, f"{rest[:4]}-{rest[4:]}"
     return None
+
+
+# Uskuna satrini tanlash (mini ilova va plagin shu qoida bo'yicha ishlaydi):
+# 1) ona plata UUID, 2) ona plata seriya raqami, 3) kompyuter nomi + tizim diski seriyasi.
+# Ba'zi platalarda UUID/seriya "bo'sh" yoki zavod namunasi bo'ladi - ular tashlab ketiladi.
+BAD_UUIDS = {"03000200-0400-0500-0006-000700080009"}
+BAD_BOARDS = {
+    "DEFAULT STRING", "TO BE FILLED BY O.E.M.", "NONE", "N/A", "NA", "NOT APPLICABLE",
+    "SYSTEM SERIAL NUMBER", "BASE BOARD SERIAL NUMBER", "SERIAL NUMBER", "INVALID",
+    "NOT AVAILABLE", "123456789", "OEM", "O.E.M.", "DEFAULT",
+}
+
+
+def choose_hw(uuid: str, board: str, computer_name: str, volume_serial: int) -> str:
+    u = (uuid or "").strip().upper()
+    if len(u) >= 8 and u not in BAD_UUIDS and set(u) - set("0F-"):
+        return "UUID:" + u
+    b = (board or "").strip().upper()
+    if len(b) >= 4 and b not in BAD_BOARDS and set(b) - set("0. "):
+        return "BB:" + b
+    return f"PC:{(computer_name or '').strip().upper()}:{int(volume_serial)}"

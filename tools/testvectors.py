@@ -23,8 +23,22 @@ HW = [
 ]
 
 
+# (uuid, ona plata seriyasi, kompyuter nomi, disk seriyasi)
+CHOOSE = [
+    ("4c4c4544-0042-3510-8051-b4c04f4a3732", "PF2ZXK8Q", "DESKTOP-1", 123),
+    ("FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF", "PF2ZXK8Q", "DESKTOP-1", 123),
+    ("00000000-0000-0000-0000-000000000000", " Default string ", "ofis-pc", -1824371651),
+    ("03000200-0400-0500-0006-000700080009", "To be filled by O.E.M.", "Ofis-PC", 42),
+    ("", "", "", 0),
+    ("  ", "0000000", "PC2", 7),
+]
+
+
 def build():
-    out = {"secret": TEST_SECRET, "machine_ids": [], "codes": [], "deact": []}
+    out = {"secret": TEST_SECRET, "choose": [], "machine_ids": [], "codes": [], "deact": []}
+    for uuid, board, name, vol in CHOOSE:
+        out["choose"].append({"uuid": uuid, "board": board, "name": name, "volume": vol,
+                              "hw": L.choose_hw(uuid, board, name, vol)})
     for hw in HW:
         out["machine_ids"].append({"hw": hw, "mid": L.machine_id(hw)})
     for item in out["machine_ids"]:

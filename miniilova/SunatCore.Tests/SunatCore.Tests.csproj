@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Python (litsenziya.py) va C# (SunatCore) natijalari bir xilligini tekshiradi:  dotnet run -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\SunatCore\*.cs" Link="SunatCore\%(Filename)%(Extension)" />
+    <!-- mini ilovaning ZIP o'quvchisi: tools/zip_yasash.py yasagan paketni o'qiy olishini tekshiramiz -->
+    <Compile Include="..\SunatPlaginlar\Services\PackageInstaller.cs" Link="Services\PackageInstaller.cs" />
+  </ItemGroup>
+</Project>

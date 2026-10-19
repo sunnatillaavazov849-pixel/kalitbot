@@ -4,3 +4,8 @@
 __pycache__/
 .venv/
 venv/
+bin/
+obj/
+dist/
+ziptest/
+*.zip
