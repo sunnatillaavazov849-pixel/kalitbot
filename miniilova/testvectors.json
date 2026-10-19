@@ -1,0 +1,213 @@
+{
+  "secret": "TestSecret_NotReal_0123456789abc",
+  "machine_ids": [
+    {
+      "hw": "UUID:4C4C4544-0042-3510-8051-B4C04F4A3732",
+      "mid": "FGV8-XXPE"
+    },
+    {
+      "hw": "UUID:03AA02FC-0414-05E1-1F06-B70700080009",
+      "mid": "NYWH-6KPT"
+    },
+    {
+      "hw": "BB:PF2ZXK8Q",
+      "mid": "QQ6G-JFW9"
+    },
+    {
+      "hw": "BB:/7XKD3M2/CNWS2008B800YX/",
+      "mid": "27JG-FGXR"
+    },
+    {
+      "hw": "PC:DESKTOP-9F3K2LM:1824371651",
+      "mid": "ELSR-9AUM"
+    },
+    {
+      "hw": "pc:ofis-kompyuter:12",
+      "mid": "AQ53-5WLU"
+    }
+  ],
+  "codes": [
+    {
+      "prefix": "TT",
+      "mid": "FGV8-XXPE",
+      "code": "TT-8EGM-LWWY-7723"
+    },
+    {
+      "prefix": "MB",
+      "mid": "FGV8-XXPE",
+      "code": "MB-7USM-R2XU-LUGL"
+    },
+    {
+      "prefix": "ABCD",
+      "mid": "FGV8-XXPE",
+      "code": "ABCD-99UP-ZYFV-LLUT"
+    },
+    {
+      "prefix": "TT",
+      "mid": "NYWH-6KPT",
+      "code": "TT-9HVH-FKK4-TMWX"
+    },
+    {
+      "prefix": "MB",
+      "mid": "NYWH-6KPT",
+      "code": "MB-UTXR-6DW5-VLUU"
+    },
+    {
+      "prefix": "ABCD",
+      "mid": "NYWH-6KPT",
+      "code": "ABCD-3QT9-65GT-FBM3"
+    },
+    {
+      "prefix": "TT",
+      "mid": "QQ6G-JFW9",
+      "code": "TT-VL6E-PHDB-VSDN"
+    },
+    {
+      "prefix": "MB",
+      "mid": "QQ6G-JFW9",
+      "code": "MB-JABY-MDAM-6CTV"
+    },
+    {
+      "prefix": "ABCD",
+      "mid": "QQ6G-JFW9",
+      "code": "ABCD-BP3N-76Z8-TZPG"
+    },
+    {
+      "prefix": "TT",
+      "mid": "27JG-FGXR",
+      "code": "TT-XT9G-5RUR-G3MK"
+    },
+    {
+      "prefix": "MB",
+      "mid": "27JG-FGXR",
+      "code": "MB-DG9H-M7Q3-Z56J"
+    },
+    {
+      "prefix": "ABCD",
+      "mid": "27JG-FGXR",
+      "code": "ABCD-NBJH-U5CW-VB7P"
+    },
+    {
+      "prefix": "TT",
+      "mid": "ELSR-9AUM",
+      "code": "TT-P86Q-4GA5-89Y2"
+    },
+    {
+      "prefix": "MB",
+      "mid": "ELSR-9AUM",
+      "code": "MB-QMRM-KFNW-RDJ3"
+    },
+    {
+      "prefix": "ABCD",
+      "mid": "ELSR-9AUM",
+      "code": "ABCD-6LY7-XCEU-VY37"
+    },
+    {
+      "prefix": "TT",
+      "mid": "AQ53-5WLU",
+      "code": "TT-DJEV-H22M-QARL"
+    },
+    {
+      "prefix": "MB",
+      "mid": "AQ53-5WLU",
+      "code": "MB-39C8-9UGV-5FDC"
+    },
+    {
+      "prefix": "ABCD",
+      "mid": "AQ53-5WLU",
+      "code": "ABCD-7XDQ-MUPQ-KU52"
+    }
+  ],
+  "deact": [
+    {
+      "code": "TT-8EGM-LWWY-7723",
+      "mid": "FGV8-XXPE",
+      "confirm": "C6U5-8KGM"
+    },
+    {
+      "code": "MB-7USM-R2XU-LUGL",
+      "mid": "FGV8-XXPE",
+      "confirm": "HL95-G8BP"
+    },
+    {
+      "code": "ABCD-99UP-ZYFV-LLUT",
+      "mid": "FGV8-XXPE",
+      "confirm": "TZX2-RGBV"
+    },
+    {
+      "code": "TT-9HVH-FKK4-TMWX",
+      "mid": "NYWH-6KPT",
+      "confirm": "3GUY-W9RJ"
+    },
+    {
+      "code": "MB-UTXR-6DW5-VLUU",
+      "mid": "NYWH-6KPT",
+      "confirm": "8PA7-US5S"
+    },
+    {
+      "code": "ABCD-3QT9-65GT-FBM3",
+      "mid": "NYWH-6KPT",
+      "confirm": "E96Z-FPJ3"
+    },
+    {
+      "code": "TT-VL6E-PHDB-VSDN",
+      "mid": "QQ6G-JFW9",
+      "confirm": "368X-LGMY"
+    },
+    {
+      "code": "MB-JABY-MDAM-6CTV",
+      "mid": "QQ6G-JFW9",
+      "confirm": "CP2E-NL93"
+    },
+    {
+      "code": "ABCD-BP3N-76Z8-TZPG",
+      "mid": "QQ6G-JFW9",
+      "confirm": "P9FH-Y8VK"
+    },
+    {
+      "code": "TT-XT9G-5RUR-G3MK",
+      "mid": "27JG-FGXR",
+      "confirm": "F4YH-P2U4"
+    },
+    {
+      "code": "MB-DG9H-M7Q3-Z56J",
+      "mid": "27JG-FGXR",
+      "confirm": "5WX5-3944"
+    },
+    {
+      "code": "ABCD-NBJH-U5CW-VB7P",
+      "mid": "27JG-FGXR",
+      "confirm": "HHZA-426T"
+    },
+    {
+      "code": "TT-P86Q-4GA5-89Y2",
+      "mid": "ELSR-9AUM",
+      "confirm": "K676-GX4W"
+    },
+    {
+      "code": "MB-QMRM-KFNW-RDJ3",
+      "mid": "ELSR-9AUM",
+      "confirm": "4AFM-C2K4"
+    },
+    {
+      "code": "ABCD-6LY7-XCEU-VY37",
+      "mid": "ELSR-9AUM",
+      "confirm": "Q8YJ-A3TP"
+    },
+    {
+      "code": "TT-DJEV-H22M-QARL",
+      "mid": "AQ53-5WLU",
+      "confirm": "M565-PZUD"
+    },
+    {
+      "code": "MB-39C8-9UGV-5FDC",
+      "mid": "AQ53-5WLU",
+      "confirm": "6K77-2RHD"
+    },
+    {
+      "code": "ABCD-7XDQ-MUPQ-KU52",
+      "mid": "AQ53-5WLU",
+      "confirm": "669H-XEYP"
+    }
+  ]
+}
