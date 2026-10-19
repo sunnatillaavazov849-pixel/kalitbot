@@ -54,7 +54,8 @@ Birinchi ishga tushishda Tez-Tez (`TT`) plagini bazaga o'zi qo'shiladi.
 1. Botda `/plagin_qosh` → belgi (masalan `MB`) va boshqalar → bot **maxfiy kalit** beradi.
 2. `corel_palgin` dagi `SunatLicense.bas` ni plaginga import qiling, `PLUGIN_PREFIX` va `LIC_SECRET` ni yozing,
    asosiy makros boshiga `If Not SunatCheck() Then Exit Sub`. `.gms` ni saqlang.
-3. Mijoz ZIP'ini yasang:
+3. Mijoz ZIP'ini yasang: Windows'da `.gms` faylni **`zip_yasash.bat`** ustiga sudrab tashlang
+   (`Sunat.cc Plaginlar.exe` shu papkada bo'lsin) va savollarga javob bering. Yoki buyruq bilan:
    ```bash
    python tools/zip_yasash.py --prefix MB --name "Manga Bitmap" --gms MangaBitmap.gms \
        --exe "Sunat.cc Plaginlar.exe" --bot https://t.me/<bot_nomi>
