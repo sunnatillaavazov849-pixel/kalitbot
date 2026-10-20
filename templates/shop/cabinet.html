@@ -1,0 +1,63 @@
+{% extends "base.html" %}{% load shop_tags %}
+{% block title %}Kabinet — Sunat.cc{% endblock %}
+{% block content %}
+<section class="page-head">
+  <span class="eyebrow">Kabinet</span>
+  <h2>Salom, {{ user.name|default:user.phone }}</h2>
+  <p>Litsenziyalaringiz, kodlar va plaginlarni yuklab olish. <a href="{% url 'profil' %}">Ma'lumotlarni o'zgartirish</a></p>
+</section>
+
+{% if orders %}
+<section style="padding-block:16px">
+  <div class="stack">{% for o in orders %}
+    <a class="note {% if o.status == 'kutilmoqda' %}amber{% else %}red{% endif %}" href="{% url 'order' o.pk %}" style="text-decoration:none">
+      <b>{{ o.plugin.name }} · {{ o.mid }}</b>
+      <span>{% if o.status == 'kutilmoqda' %}To'lov tekshirilmoqda ({{ o.created_at|date:"d.m H:i" }}){% else %}To'lov tasdiqlanmadi — batafsil{% endif %}</span>
+    </a>{% endfor %}</div>
+</section>
+{% endif %}
+
+<section style="padding-top:16px">
+  <div class="tray">
+  {% if licenses %}
+    <div class="grid grid-2">
+    {% for lic in licenses %}
+      <article class="card stack">
+        <div class="row" style="justify-content:space-between">
+          <div class="row"><span class="badge">{{ lic.plugin.prefix }}</span><h3>{{ lic.plugin.name }}</h3></div>
+          {% if lic.status == "faol" %}<span class="chip green">● Faol</span>{% elif lic.status == "bosh" %}<span class="chip amber">● Kompyuter tanlanmagan</span>{% else %}<span class="chip red">● Bloklangan</span>{% endif %}
+        </div>
+        {% if lic.status == "faol" %}
+          {% include "includes/license_code.html" %}
+          <hr class="divider">
+          <div class="row" style="justify-content:space-between">
+            <span class="small muted">Kompyuter almashtirish: {{ lic.transfers_left }} ta qoldi</span>
+            <a class="btn sm ghost" href="{% url 'transfer' lic.pk %}">Kompyuterni almashtirish</a>
+          </div>
+        {% elif lic.status == "bosh" %}
+          <p class="muted small">Litsenziya hech qaysi kompyuterga bog'lanmagan. Yangi kompyuterning so'rov kodini kiriting — kod to'lovsiz beriladi.</p>
+          <a class="btn" href="{% url 'buy' lic.plugin.slug %}">So'rov kodini kiritish</a>
+          {% if lic.plugin.gms_file %}<a class="btn ghost" href="{% url 'download' lic.pk %}">Plaginni yuklab olish (ZIP)</a>{% endif %}
+        {% else %}
+          <p class="muted small">Kompyuter almashtirish soni oshib ketgan. Admin bilan bog'laning: Telegram @{{ CONTACT_TELEGRAM }}.</p>
+        {% endif %}
+      </article>
+    {% endfor %}
+    </div>
+  {% else %}
+    <div class="card center stack">
+      <h3>Hali litsenziya yo'q</h3>
+      <p class="muted">Plaginni tanlang va sotib oling.</p>
+      <a class="btn" href="{% url 'home' %}#plaginlar">Plaginlar</a>
+    </div>
+  {% endif %}
+  </div>
+</section>
+
+<section class="medium">
+  <div class="note gray">
+    <b>Avval Tez-Tez'ni TZ- parol bilan sotib olganmisiz?</b>
+    <span>Eski kompyuter kodingiz bilan litsenziyani yangi tizimga bepul o'tkazing. <a href="{% url 'legacy_tz' %}">O'tkazish</a></span>
+  </div>
+</section>
+{% endblock %}

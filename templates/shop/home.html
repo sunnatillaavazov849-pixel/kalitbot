@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <span class="eyebrow">CorelDRAW 2020 – 2026</span>
+  <h1>CorelDRAW'da ishni<br>tezlashtiradigan plaginlar</h1>
+  <p class="lead">Taxlash, rasmlar bilan ishlash va boshqa vazifalar bir tugmada. Sotib oling, kompyuteringizda bir daqiqada faollashtiring.</p>
+  <div class="row" style="justify-content:center">
+    <a class="btn" href="#plaginlar">Plaginlarni ko'rish <span class="arr">↓</span></a>
+    <a class="btn ghost" href="{% url 'app' %}">Windows dasturi</a>
+  </div>
+</section>
+
+<section id="plaginlar" style="padding-top:8px">
+  <div class="tray">
+    {% if plugins %}
+    <div class="grid grid-3">{% for p in plugins %}{% include "includes/plugin_card.html" %}{% endfor %}</div>
+    {% else %}
+    <div class="card center stack"><h3>Plaginlar tez orada</h3><p class="muted">Hozircha sotuvda plagin yo'q.</p></div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="stack-lg">
+  <div class="stack center"><span class="eyebrow">Qanday ishlaydi</span><h2>To'rt qadam — va plagin ishlaydi</h2></div>
+  <div class="grid grid-4">
+    <div class="card flat step-card"><span class="n">1</span><h3>Ro'yxatdan o'ting</h3><p class="muted small">Telefon raqami yoki Google akkaunti bilan.</p></div>
+    <div class="card flat step-card"><span class="n">2</span><h3>Dasturni oching</h3><p class="muted small">«Sunat.cc Plaginlar» o'rnatishsiz ishlaydi. Plaginni tanlang — u kompyuteringiz uchun so'rov kodini beradi.</p></div>
+    <div class="card flat step-card"><span class="n">3</span><h3>Kodni saytga kiriting</h3><p class="muted small">To'lov qiling va chekni yuklang. Tekshirilgach faollashtirish kodi kabinetingizda chiqadi.</p></div>
+    <div class="card flat step-card"><span class="n">4</span><h3>O'rnating</h3><p class="muted small">Plaginni yuklab oling, dastur uni CorelDRAW'ga o'zi qo'yadi. Kodni kiriting — tayyor.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="banner">
+    <span class="badge lg">S</span>
+    <h2>Windows dasturini yuklab oling</h2>
+    <p class="muted" style="max-width:52ch">Plaginlar ro'yxati, so'rov kodi, o'rnatish va faollashtirish — hammasi bitta oynada. O'rnatish shart emas.</p>
+    <div class="row" style="justify-content:center">
+      <a class="btn" href="{% url 'app' %}">Yuklab olish <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="medium">
+  <div class="stack center" style="margin-bottom:12px"><span class="eyebrow">Savollar</span><h2>Ko'p so'raladigan savollar</h2></div>
+  {% for q, a in faq %}<details class="faq"><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}
+</section>
+{% endblock %}

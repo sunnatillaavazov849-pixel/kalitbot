@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Windows dastur — Sunat.cc{% endblock %}
+{% block content %}
+<section class="hero" style="padding-bottom:16px">
+  <span class="badge lg">S</span>
+  <span class="eyebrow">Windows 10 / 11</span>
+  <h1 style="font-size:clamp(2rem,4.6vw,3.2rem)">Sunat.cc Plaginlar dasturi</h1>
+  <p class="lead">Plaginlar ro'yxati, kompyuteringiz uchun so'rov kodi, plaginni CorelDRAW'ga o'rnatish va faollashtirish — bitta oynada.</p>
+</section>
+<section style="padding-top:8px">
+  <div class="tray"><div class="grid grid-2">
+    <div class="card stack">
+      <span class="chip green" style="justify-self:start">Tavsiya</span>
+      <h3>O'rnatishsiz versiya</h3>
+      <p class="muted small">Bitta fayl. Yuklab oling va ikki marta bosing — darhol ishlaydi.</p>
+      <a class="btn block" href="{{ APP_PORTABLE_URL }}">SunatPlaginlar.exe yuklab olish</a>
+    </div>
+    <div class="card stack">
+      <span class="chip gray" style="justify-self:start">O'rnatuvchi</span>
+      <h3>Setup versiyasi</h3>
+      <p class="muted small">Kompyuterga o'rnatiladi, «Пуск» menyusida va ish stolida belgi paydo bo'ladi.</p>
+      <a class="btn block ghost" href="{{ APP_SETUP_URL }}">SunatPlaginlar-Setup.exe yuklab olish</a>
+    </div>
+  </div></div>
+</section>
+<section class="medium stack-lg">
+  <div class="stack"><h2>Ko'k oyna chiqsa</h2>
+    <p class="muted">Windows yangi dasturlarni tanimaydi va «Windows protected your PC» deb ogohlantiradi. Bu xavfli degani emas.</p></div>
+  <div class="grid grid-2" style="align-items:center">
+    <div class="win-shot" aria-hidden="true">
+      <b>Windows protected your PC</b>
+      <span>Microsoft Defender SmartScreen prevented an unrecognized app from starting.</span>
+      <u class="mk" style="justify-self:start">More info</u>
+      <div class="r"><span class="b mk">Run anyway</span><span class="b">Don't run</span></div>
+    </div>
+    <ol style="margin:0;padding-left:20px;display:grid;gap:8px">
+      <li><b>More info</b> (Подробнее) ni bosing.</li>
+      <li><b>Run anyway</b> (Выполнить в любом случае) ni bosing.</li>
+      <li>Bu faqat birinchi ochishda so'raladi.</li>
+    </ol>
+  </div>
+  <div class="note gray"><b>Talablar</b><span>Windows 10 yoki 11 (.NET Framework 4.8 — Windows'da oldindan bor), CorelDRAW 2020 – 2026, VBA o'rnatilgan.</span></div>
+</section>
+{% endblock %}

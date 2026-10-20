@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Eski litsenziyani o'tkazish{% endblock %}
+{% block content %}
+<section class="narrow stack-lg">
+  <div class="stack"><span class="eyebrow">Tez-Tez</span><h2>Eski litsenziyani o'tkazish</h2>
+    <p class="muted">Tez-Tez'ni avval <span class="mono">TZ-…</span> parol bilan sotib olgan bo'lsangiz, parol olgan paytingizdagi <b>kompyuter kodini</b> kiriting (eski plagin oynasida ko'rinardi).</p></div>
+  <div class="tray"><div class="card">
+    <form method="post" class="stack">{% csrf_token %}
+      {% include "includes/form_errors.html" %}
+      {% for field in form %}{% include "includes/field.html" %}{% endfor %}
+      <button class="btn block" type="submit">O'tkazish</button>
+    </form>
+  </div></div>
+</section>
+{% endblock %}

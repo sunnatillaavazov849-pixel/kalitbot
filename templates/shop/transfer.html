@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Kompyuterni almashtirish — {{ lic.plugin.name }}{% endblock %}
+{% block content %}
+<section class="medium stack-lg">
+  <div class="stack"><span class="eyebrow">{{ lic.plugin.name }}</span><h2>Kompyuterni almashtirish</h2>
+    <p class="muted">Windows qayta o'rnatildi yoki yangi kompyuter oldingizmi? Litsenziyani eski kompyuterdan bo'shatib, yangisida bepul yoqasiz.
+    Qoidalar: kuniga 1 marta, jami {{ lic.MAX_DEACT }} marta.</p></div>
+
+  {% if problem == "bugun" %}
+    <div class="note amber"><b>Bugun allaqachon almashtirilgan</b><span>Ertaga qayta urinib ko'ring.</span></div>
+  {% elif problem == "limit" %}
+    <div class="note red"><b>Litsenziya bloklandi</b><span>Almashtirishlar soni {{ lic.MAX_DEACT }} tadan oshdi. Admin bilan bog'laning (Telegram @{{ CONTACT_TELEGRAM }}) yoki yangi litsenziya sotib oling.</span></div>
+  {% elif problem %}
+    <div class="note gray"><b>Bu litsenziya hozir hech qaysi kompyuterda faol emas</b><span><a href="{% url 'buy' lic.plugin.slug %}">Yangi kompyuterning so'rov kodini kiriting</a>.</span></div>
+  {% else %}
+  <div class="tray"><div class="grid grid-2">
+    <div class="card stack">
+      <dl class="kv"><dt>Hozirgi kompyuter</dt><dd class="mono">{{ lic.mid }}</dd><dt>Qolgan almashtirishlar</dt><dd>{{ lic.transfers_left }}</dd></dl>
+      <form method="post" class="stack">{% csrf_token %}
+        {% include "includes/form_errors.html" %}
+        {% for field in form %}{% include "includes/field.html" %}{% endfor %}
+        <button class="btn block" type="submit">Eski kompyuterdan bo'shatish</button>
+      </form>
+    </div>
+    <div class="card flat stack" style="background:var(--pastel-soft);border:0">
+      <h3>Tasdiq kodini olish</h3>
+      <p class="small"><b>Eski kompyuterda</b> «Sunat.cc Plaginlar» dasturini oching → <b>Plaginlar</b> → {{ lic.plugin.name }} → <b>Dezaktiv qilish</b>. Dastur tasdiq kodini ko'rsatadi.</p>
+      <p class="small">Yoki CorelDRAW'da <b>Alt+F8</b> → <b>SunatDezaktiv</b> → Run.</p>
+      <p class="small muted">Eski kompyuter umuman ishlamasa — pastdagi belgini qo'ying.</p>
+    </div>
+  </div></div>
+  {% endif %}
+  <a class="btn ghost" href="{% url 'kabinet' %}">Kabinetga qaytish</a>
+</section>
+{% endblock %}

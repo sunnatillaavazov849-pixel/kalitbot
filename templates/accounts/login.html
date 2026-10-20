@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Kirish — Sunat.cc{% endblock %}
+{% block content %}
+<section class="narrow">
+  <div class="tray"><div class="card stack">
+    <div class="stack" style="gap:8px"><h2>Kirish</h2><p class="muted">Kabinetingizga kiring: litsenziyalar, kodlar va yuklab olish.</p></div>
+    {% include "includes/google.html" %}
+    <form method="post" class="stack">{% csrf_token %}
+      {% include "includes/form_errors.html" %}
+      {% for field in form %}{% include "includes/field.html" %}{% endfor %}
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <button class="btn block" type="submit">Kirish</button>
+    </form>
+    <p class="small muted">Akkauntingiz yo'qmi? <a href="{% url 'royxat' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Ro'yxatdan o'ting</a>.<br>
+    Parolni unutdingizmi? Telegram <a href="https://t.me/{{ CONTACT_TELEGRAM }}">@{{ CONTACT_TELEGRAM }}</a> ga yozing — yangisini beramiz.</p>
+  </div></div>
+</section>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Ro'yxatdan o'tish — Sunat.cc{% endblock %}
+{% block content %}
+<section class="narrow">
+  <div class="tray"><div class="card stack">
+    <div class="stack" style="gap:8px"><h2>Ro'yxatdan o'tish</h2><p class="muted">Bir daqiqa: ism, telefon va parol. Yoki Google orqali.</p></div>
+    {% include "includes/google.html" %}
+    <form method="post" class="stack">{% csrf_token %}
+      {% include "includes/form_errors.html" %}
+      {% for field in form %}{% include "includes/field.html" %}{% endfor %}
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <button class="btn block" type="submit">Ro'yxatdan o'tish</button>
+    </form>
+    <p class="small muted">Akkauntingiz bormi? <a href="{% url 'kirish' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Kirish</a>.
+    Avval Telegram bot orqali xarid qilgan bo'lsangiz, o'sha telefon raqamini yozing — xaridlaringiz o'zi ulanadi.</p>
+  </div></div>
+</section>
+{% endblock %}

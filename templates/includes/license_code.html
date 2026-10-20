@@ -1,0 +1,7 @@
+<div class="stack" style="gap:10px">
+  <dl class="kv"><dt>Plagin</dt><dd>{{ lic.plugin.name }}</dd><dt>Kompyuter ID</dt><dd class="mono">{{ lic.mid }}</dd></dl>
+  <div class="codebox big"><span class="v" id="code-{{ lic.pk }}">{{ lic.code }}</span>
+    <button class="btn sm" type="button" data-copy="#code-{{ lic.pk }}">Nusxalash</button></div>
+  <p class="small muted">Kodni «Sunat.cc Plaginlar» dasturida plagin kartochkasiga yoki CorelDRAW'dagi plagin oynasiga kiriting. Kod faqat shu kompyuterda ishlaydi.</p>
+  {% if lic.plugin.gms_file %}<a class="btn ghost" href="{% url 'download' lic.pk %}">Plaginni yuklab olish (ZIP)</a>{% endif %}
+</div>

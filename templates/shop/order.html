@@ -1,0 +1,25 @@
+{% extends "base.html" %}{% load shop_tags %}
+{% block title %}Buyurtma #{{ order.pk }}{% endblock %}
+{% block content %}
+<section class="medium stack-lg">
+  <div class="stack"><span class="eyebrow">Buyurtma #{{ order.pk }}</span>
+    {% if order.status == "kutilmoqda" %}<h2>To'lovingiz tekshirilmoqda</h2>
+      <p class="muted">Chek qabul qilindi. Admin tekshirgach shu sahifada va kabinetingizda faollashtirish kodi paydo bo'ladi. Sahifani keyinroq yangilang.</p>
+    {% elif order.status == "tasdiqlandi" %}<h2>To'lov tasdiqlandi</h2><p class="muted">Rahmat! Faollashtirish kodingiz tayyor.</p>
+    {% else %}<h2>To'lov tasdiqlanmadi</h2><p class="muted">{{ order.admin_note|default:"Savollar bo'lsa, admin bilan bog'laning." }}</p>{% endif %}
+  </div>
+  {% if order.status == "kutilmoqda" %}{% with stage=2 %}{% include "includes/progress.html" %}{% endwith %}{% endif %}
+  {% if order.status == "tasdiqlandi" %}{% with stage=3 %}{% include "includes/progress.html" %}{% endwith %}{% endif %}
+  <div class="tray"><div class="card stack">
+    {% if order.status == "tasdiqlandi" and order.license and order.license.status == "faol" %}
+      {% with lic=order.license %}{% include "includes/license_code.html" %}{% endwith %}
+    {% else %}
+      <dl class="kv"><dt>Plagin</dt><dd>{{ order.plugin.name }}</dd><dt>Kompyuter ID</dt><dd class="mono">{{ order.mid }}</dd>
+        <dt>Summa</dt><dd>{{ order.amount|som }} so'm</dd><dt>Sana</dt><dd>{{ order.created_at|date:"d.m.Y H:i" }}</dd>
+        <dt>Holat</dt><dd>{% if order.status == "kutilmoqda" %}<span class="chip amber">Tekshirilmoqda</span>{% elif order.status == "rad_etildi" %}<span class="chip red">Rad etildi</span>{% else %}<span class="chip green">Tasdiqlandi</span>{% endif %}</dd></dl>
+      {% if order.status == "rad_etildi" %}<a class="btn" href="{% url 'buy' order.plugin.slug %}">Qayta urinish</a>{% endif %}
+    {% endif %}
+  </div></div>
+  <a class="btn ghost" href="{% url 'kabinet' %}">Kabinetga o'tish</a>
+</section>
+{% endblock %}

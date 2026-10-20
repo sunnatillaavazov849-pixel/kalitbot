@@ -2,7 +2,7 @@
 Windows dastur (PackageInstaller) shu tuzilishni o'qiydi."""
 import io
 import json
-import os
+import re
 import zipfile
 
 from django.conf import settings
@@ -24,8 +24,14 @@ Yordam: {site}/yordam/
 """
 
 
+def gms_filename(plugin) -> str:
+    """Doimiy fayl nomi (masalan TezTez.gms). Saqlangan fayl nomiga bog'liq emas: admin yangi versiya
+    yuklaganda Django nomga qo'shimcha qo'shadi, mijoz papkasida esa eski nusxa almashtirilishi kerak."""
+    return (re.sub(r"[^A-Za-z0-9]+", "", plugin.name) or plugin.prefix) + ".gms"
+
+
 def build_plugin_zip(plugin) -> tuple[bytes, str]:
-    fname = os.path.basename(plugin.gms_file.name)
+    fname = gms_filename(plugin)
     manifest = {
         "prefix": plugin.prefix,
         "name": plugin.name,

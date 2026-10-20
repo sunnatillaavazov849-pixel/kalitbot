@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Yordam — Sunat.cc{% endblock %}
+{% block content %}
+<section class="page-head"><span class="eyebrow">Yordam</span><h2>O'rnatish va faollashtirish</h2>
+  <p>Qadamlar, videolar va ko'p so'raladigan savollar.</p></section>
+<section style="padding-top:16px">
+  <div class="tray"><div class="grid grid-4">
+    <div class="card flat step-card"><span class="n">1</span><h3>Ro'yxatdan o'ting</h3><p class="muted small">Saytda telefon yoki Google bilan.</p></div>
+    <div class="card flat step-card"><span class="n">2</span><h3>Dasturdan so'rov kodi</h3><p class="muted small">«Sunat.cc Plaginlar» → Plaginlar → plagin → so'rov kodi.</p></div>
+    <div class="card flat step-card"><span class="n">3</span><h3>Saytda to'lov</h3><p class="muted small">Kodni kiriting, kartaga to'lang, chekni yuklang.</p></div>
+    <div class="card flat step-card"><span class="n">4</span><h3>O'rnating</h3><p class="muted small">Kabinetdan ZIP'ni oling → dasturda «Plaginni o'rnatish» → kodni kiriting.</p></div>
+  </div></div>
+</section>
+{% if videos %}
+<section class="stack-lg">
+  <h2>Videolar</h2>
+  <div class="grid grid-2">{% for v in videos %}
+    <div class="stack" style="gap:10px">
+      {% if v.youtube_embed %}<iframe class="video" src="{{ v.youtube_embed }}" title="{{ v.title }}" loading="lazy" allowfullscreen></iframe>
+      {% elif v.file %}<video class="video" src="{{ v.file.url }}" controls preload="metadata"></video>{% endif %}
+      <h3>{{ v.title }}</h3>
+    </div>{% endfor %}</div>
+</section>
+{% endif %}
+<section class="medium">
+  <h2 style="margin-bottom:12px">Savollar</h2>
+  {% for q, a in faq %}<details class="faq"><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}
+  <details class="faq"><summary>Parolni unutdim</summary><p>Telegram @{{ CONTACT_TELEGRAM }} ga telefon raqamingizni yozing — yangi parol beramiz. Google bilan kirgan bo'lsangiz, parol kerak emas.</p></details>
+  <details class="faq"><summary>Plagin «bu kod boshqa kompyuter uchun» deyapti</summary><p>Saytga boshqa kompyuterning so'rov kodi kiritilgan. Shu kompyuterdagi dasturdan so'rov kodini qayta nusxalab kiriting.</p></details>
+</section>
+<section>
+  <div class="banner"><h2>Savol qoldimi?</h2><p class="muted">Yozing — o'rnatishda yordam beramiz.</p>
+    <div class="row" style="justify-content:center">
+      <a class="btn" href="https://t.me/{{ CONTACT_TELEGRAM }}">Telegram @{{ CONTACT_TELEGRAM }}</a>
+      <a class="btn ghost" href="https://instagram.com/{{ CONTACT_INSTAGRAM }}">Instagram</a>
+    </div><p class="small muted">{{ CONTACT_PHONE }}</p></div>
+</section>
+{% endblock %}

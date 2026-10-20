@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{ plugin.name }} — sotib olish{% endblock %}
+{% block content %}
+<section class="medium stack-lg">
+  <div class="stack"><span class="eyebrow">{{ plugin.name }}</span><h2>So'rov kodini kiriting</h2>
+    <p class="muted">So'rov kodi kompyuteringizga bog'langan: plagin faqat shu kompyuterda ishlaydi.</p></div>
+  {% with stage=1 %}{% include "includes/progress.html" %}{% endwith %}
+  <div class="tray"><div class="grid grid-2">
+    <div class="card stack">
+      <form method="post" class="stack">{% csrf_token %}
+        <input type="hidden" name="step" value="code">
+        {% include "includes/form_errors.html" %}
+        {% for field in form %}{% include "includes/field.html" %}{% endfor %}
+        <button class="btn block" type="submit">Davom etish <span class="arr">→</span></button>
+      </form>
+    </div>
+    <div class="card flat stack" style="background:var(--pastel-soft);border:0">
+      <h3>Kodni qayerdan olaman?</h3>
+      <ol class="small" style="margin:0;padding-left:20px;display:grid;gap:8px">
+        <li><a href="{% url 'app' %}">«Sunat.cc Plaginlar»</a> dasturini oching.</li>
+        <li><b>Plaginlar</b> → <b>{{ plugin.name }}</b> → so'rov kodi yonidagi <b>Nusxalash</b>.</li>
+        <li>Shu yerga qo'ying. Dasturdagi «Saytda sotib olish» tugmasi kodni o'zi qo'yib beradi.</li>
+      </ol>
+      <p class="small muted">Kod <span class="mono">{{ plugin.prefix }}-XXXX-XXXX</span> ko'rinishida bo'ladi. CorelDRAW'da plagin oynasida ham ko'rinadi.</p>
+    </div>
+  </div></div>
+</section>
+{% endblock %}

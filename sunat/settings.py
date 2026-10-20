@@ -70,6 +70,7 @@ TEMPLATES = [{
 }]
 
 DATA_DIR = Path(env("DATA_DIR") or BASE_DIR / "data")
+DATA_DIR.mkdir(parents=True, exist_ok=True)
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": DATA_DIR / "sayt.db"}}
 
 AUTH_USER_MODEL = "accounts.User"

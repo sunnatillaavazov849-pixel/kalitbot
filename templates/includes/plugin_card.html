@@ -1,0 +1,21 @@
+{% load shop_tags %}
+<article class="card plugin-card">
+  <a class="thumb" href="{% url 'plugin' p.slug %}" aria-label="{{ p.name }}">
+    {% if p.image %}<img src="{{ p.image.url }}" alt="{{ p.name }}" loading="lazy">{% else %}<span class="badge lg">{{ p.prefix }}</span>{% endif %}
+  </a>
+  <div class="stack" style="gap:6px">
+    <div class="row" style="justify-content:space-between"><h3>{{ p.name }}</h3>{% if p.version %}<span class="chip gray">v{{ p.version }}</span>{% endif %}</div>
+    {% if p.tagline %}<p class="muted small">{{ p.tagline }}</p>{% endif %}
+  </div>
+  <div class="price">{{ p.price|som }} <small>so'm</small></div>
+  <hr class="divider">
+  <ul class="checks">
+    <li>CorelDRAW {{ p.corel_versions }}</li>
+    <li>Bitta kompyuter uchun, muddatsiz</li>
+    <li>Kompyuter almashtirish — bepul</li>
+  </ul>
+  <div class="grid" style="gap:8px">
+    <a class="btn block" href="{% url 'buy' p.slug %}">Sotib olish</a>
+    <a class="btn block ghost" href="{% url 'plugin' p.slug %}">Batafsil</a>
+  </div>
+</article>

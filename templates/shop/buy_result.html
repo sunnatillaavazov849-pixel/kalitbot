@@ -1,0 +1,56 @@
+{% extends "base.html" %}{% load shop_tags %}
+{% block title %}{{ plugin.name }} — sotib olish{% endblock %}
+{% block content %}
+<section class="medium stack-lg">
+  <div class="stack"><span class="eyebrow">{{ plugin.name }} · {{ plugin.prefix }}-{{ mid }}</span>
+  {% if res.kind == "code" or res.kind == "bound" %}
+    <h2>{% if res.kind == "bound" %}Litsenziya yangi kompyuterga o'tkazildi{% else %}Bu kompyuter uchun kodingiz{% endif %}</h2>
+    <p class="muted">{% if res.kind == "bound" %}To'lov kerak emas — sizda bo'sh litsenziya bor edi.{% else %}Bu kompyuterda {{ plugin.name }} allaqachon sizniki.{% endif %}</p>
+  </div>
+  {% with stage=3 %}{% include "includes/progress.html" %}{% endwith %}
+  <div class="tray"><div class="card">{% with lic=res.license %}{% include "includes/license_code.html" %}{% endwith %}</div></div>
+
+  {% elif res.kind == "pending" %}
+    <h2>To'lovingiz tekshirilmoqda</h2>
+    <p class="muted">Bu kompyuter uchun to'lov allaqachon yuborilgan. Tekshirilgach kod kabinetingizda chiqadi.</p>
+  </div>
+  <a class="btn" href="{% url 'order' res.order.pk %}">Buyurtma #{{ res.order.pk }} holati</a>
+
+  {% else %}
+    {% if res.kind == "elsewhere" %}
+      <h2>{{ plugin.name }} boshqa kompyuterda faol</h2>
+      <p class="muted">Litsenziyangiz <span class="mono">{{ res.license.mid }}</span> kompyuterida. Uni shu kompyuterga o'tkazing (bepul) yoki shu kompyuter uchun yangisini sotib oling.</p>
+    {% elif res.kind == "blocked" %}
+      <h2>Litsenziyangiz bloklangan</h2>
+      <p class="muted">Kompyuter almashtirish soni oshib ketgan. Admin bilan bog'laning (Telegram @{{ CONTACT_TELEGRAM }}) yoki yangi litsenziya sotib oling.</p>
+    {% else %}
+      <h2>To'lov</h2>
+      <p class="muted">Kartaga o'tkazing va chek rasmini yuklang. Admin tekshirgach faollashtirish kodi kabinetingizda paydo bo'ladi.</p>
+    {% endif %}
+  </div>
+  {% if res.kind == "elsewhere" %}
+    <a class="btn" href="{% url 'transfer' res.license.pk %}">Shu kompyuterga o'tkazish (bepul)</a>
+  {% endif %}
+  {% with stage=2 %}{% include "includes/progress.html" %}{% endwith %}
+  <div class="tray"><div class="grid grid-2">
+    <div class="card stack">
+      <span class="muted small">To'lov summasi</span>
+      <div class="price">{{ plugin.price|som }} <small>so'm</small></div>
+      <hr class="divider">
+      <span class="muted small">Karta raqami</span>
+      <div class="codebox"><span class="v" id="card">{{ CARD_NUMBER }}</span><button class="btn sm ghost" type="button" data-copy="#card">Nusxalash</button></div>
+      <dl class="kv"><dt>Karta egasi</dt><dd>{{ CARD_OWNER }}</dd><dt>Kompyuter ID</dt><dd class="mono">{{ mid }}</dd></dl>
+    </div>
+    <div class="card stack">
+      <form method="post" enctype="multipart/form-data" class="stack">{% csrf_token %}
+        <input type="hidden" name="step" value="pay">
+        {% include "includes/form_errors.html" with form=pay_form %}
+        {% with field=pay_form.receipt %}{% include "includes/field.html" %}{% endwith %}
+        <button class="btn block" type="submit">Chekni yuborish</button>
+        <p class="small muted">Odatda bir necha soat ichida tekshiriladi. Holatini kabinetda ko'rasiz.</p>
+      </form>
+    </div>
+  </div></div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% load static %}<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{% block title %}Sunat.cc Plaginlar{% endblock %}</title>
+<meta name="description" content="{% block description %}CorelDRAW uchun plaginlar: sotib oling, kompyuteringizda faollashtiring.{% endblock %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="{% static 'sunat.css' %}">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FDE68A'/%3E%3Cstop offset='.5' stop-color='%23FBCFE8'/%3E%3Cstop offset='1' stop-color='%23BAE6FD'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='10' fill='url(%23g)'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='800' font-size='16' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="{% url 'home' %}"><span class="badge">S</span>Sunat.cc</a>
+    <nav class="nav" aria-label="Asosiy">
+      <a href="{% url 'home' %}#plaginlar">Plaginlar</a>
+      <a href="{% url 'app' %}" {% if request.resolver_match.url_name == 'app' %}aria-current="page"{% endif %}>Dastur</a>
+      <a href="{% url 'help' %}" {% if request.resolver_match.url_name == 'help' %}aria-current="page"{% endif %}>Yordam</a>
+    </nav>
+    <div class="header-actions">
+      {% if user.is_authenticated %}
+        <a class="btn sm" href="{% url 'kabinet' %}">Kabinet</a>
+        <form method="post" action="{% url 'chiqish' %}">{% csrf_token %}<button class="btn sm ghost" type="submit">Chiqish</button></form>
+      {% else %}
+        <a class="btn sm ghost" href="{% url 'kirish' %}">Kirish</a>
+        <a class="btn sm" href="{% url 'royxat' %}">Ro'yxatdan o'tish</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  {% if messages %}<div class="messages">{% for m in messages %}<div class="msg {{ m.tags }}">{{ m }}</div>{% endfor %}</div>{% endif %}
+  {% block content %}{% endblock %}
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div><b style="color:var(--ink)">Sunat.cc Plaginlar</b><br>CorelDRAW uchun plaginlar</div>
+    <div>Telegram: <a href="https://t.me/{{ CONTACT_TELEGRAM }}">@{{ CONTACT_TELEGRAM }}</a><br>
+         Instagram: <a href="https://instagram.com/{{ CONTACT_INSTAGRAM }}">@{{ CONTACT_INSTAGRAM }}</a><br>
+         Tel: {{ CONTACT_PHONE }}</div>
+    <div><a href="{% url 'app' %}">Windows dastur</a><br><a href="{% url 'help' %}">Yordam</a><br><a href="{% url 'kabinet' %}">Kabinet</a></div>
+  </div>
+</footer>
+<script src="{% static 'sunat.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Profil — Sunat.cc{% endblock %}
+{% block content %}
+<section class="narrow">
+  <div class="tray"><div class="card stack">
+    <div class="stack" style="gap:8px"><h2>Ma'lumotlaringiz</h2>
+      <p class="muted">Telefon raqami to'lovni tekshirish va siz bilan bog'lanish uchun kerak. Avval Telegram bot orqali xarid qilgan bo'lsangiz, o'sha raqamni yozing.</p></div>
+    <form method="post" class="stack">{% csrf_token %}
+      {% include "includes/form_errors.html" %}
+      {% for field in form %}{% include "includes/field.html" %}{% endfor %}
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <button class="btn block" type="submit">Saqlash</button>
+    </form>
+  </div></div>
+</section>
+{% endblock %}
