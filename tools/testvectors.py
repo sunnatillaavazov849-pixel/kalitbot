@@ -9,7 +9,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-import litsenziya as L  # noqa: E402
+from shop import licensing as L  # noqa: E402
 
 TEST_SECRET = "TestSecret_NotReal_0123456789abc"
 

@@ -7,7 +7,7 @@ on:
   push:
     paths:
       - "miniilova/**"
-      - "litsenziya.py"
+      - "shop/licensing.py"
       - "tools/**"
       - ".github/workflows/miniilova.yml"
     tags:
@@ -15,7 +15,7 @@ on:
   pull_request:
     paths:
       - "miniilova/**"
-      - "litsenziya.py"
+      - "shop/licensing.py"
   workflow_dispatch:
 
 permissions:
@@ -30,8 +30,10 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - name: Bot testlari
-        run: python -m unittest discover tests -v
+      - name: Sayt testlari
+        env:
+          DEBUG: "1"
+        run: python manage.py test -v 2
 
   windows:
     runs-on: windows-latest
@@ -47,13 +49,11 @@ jobs:
       - name: Mini ilovani yig'ish
         run: dotnet build miniilova/SunatPlaginlar/SunatPlaginlar.csproj -c Release -nologo
 
-      - name: Namuna ZIP (test uchun)
+      - name: Namuna ZIP (sayt yasaydigan plagin ZIP'i bilan bir xil)
         shell: bash
         run: |
           mkdir -p ziptest
-          printf 'gms-ichi' > ziptest/TezTez.gms
-          python tools/zip_yasash.py --prefix TT --name "Tez-Tez" --gms ziptest/TezTez.gms \
-            --exe miniilova/SunatPlaginlar/bin/Release/net48/SunatPlaginlar.exe --out ziptest/TT.zip
+          python tools/sample_zip.py ziptest/TT.zip
 
       - name: Python = C# tekshiruvi
         run: dotnet run --project miniilova/SunatCore.Tests -c Release -- miniilova/testvectors.json ziptest/TT.zip

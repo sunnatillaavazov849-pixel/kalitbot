@@ -1,0 +1,11 @@
+{% extends "admin/base.html" %}
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | Sunat.cc{% endblock %}
+{% block branding %}
+<div id="site-name"><a href="{% url 'admin:index' %}">Sunat.cc boshqaruv</a></div>
+{% if PENDING_ORDERS %}
+<a href="{% url 'admin:shop_order_changelist' %}?status__exact=kutilmoqda"
+   style="margin-left:16px;background:#F2A516;color:#1B1300;padding:4px 12px;border-radius:999px;font-weight:600;text-decoration:none">
+  Kutilayotgan to'lovlar: {{ PENDING_ORDERS }}</a>
+{% endif %}
+{% endblock %}
+{% block nav-global %}{% endblock %}

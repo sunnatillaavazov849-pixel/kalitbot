@@ -1,5 +1,5 @@
 // Sunat.cc Plaginlar - litsenziya algoritmlari.
-// kalitbot/litsenziya.py va plaginlardagi SunatLicense.bas bilan AYNAN bir xil
+// kalitbot/shop/licensing.py va plaginlardagi SunatLicense.bas bilan AYNAN bir xil
 // ishlashi shart. Tekshiruv: SunatCore.Tests (testvectors.json bilan).
 // Bu faylda maxfiy kalit YO'Q: ActivationCode faqat testlar uchun kalitni parametr sifatida oladi.
 using System;

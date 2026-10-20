@@ -1,12 +1,12 @@
 """Python porti VBA (Double arifmetikasi) bilan bir xil natija berishini tekshiradi.
 
-Ishga tushirish: python -m unittest discover tests
+Ishga tushirish: python manage.py test
 """
 import math
 import random
 import unittest
 
-import litsenziya as L
+from shop import licensing as L
 
 SECRET = "TestSecret_123abcXYZ"  # haqiqiy LIC_SECRET emas
 
@@ -120,8 +120,8 @@ class TestNewScheme(unittest.TestCase):
 
     def test_testvectors_file_is_current(self):
         import json, os, sys
-        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools"))
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "tools"))
         import testvectors
-        path = os.path.join(os.path.dirname(__file__), "..", "miniilova", "testvectors.json")
+        path = os.path.join(os.path.dirname(__file__), "..", "..", "miniilova", "testvectors.json")
         with open(path, encoding="utf-8") as f:
             self.assertEqual(json.load(f), testvectors.build())

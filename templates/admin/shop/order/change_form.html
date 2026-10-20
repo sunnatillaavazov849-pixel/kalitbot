@@ -1,0 +1,12 @@
+{% extends "admin/change_form.html" %}
+{% block submit_buttons_bottom %}
+{% if original.status == "kutilmoqda" %}
+<div class="submit-row" style="gap:8px">
+  <input type="submit" name="_approve" value="✅ Tasdiqlash — litsenziya berish" class="default" style="background:#15803D">
+  <input type="submit" name="_reject" value="❌ Rad etish" style="background:#B91C1C;color:#fff">
+  <span style="align-self:center;color:#666">Rad etsangiz, "admin izohi" mijozga ko'rsatiladi.</span>
+</div>
+{% else %}
+{{ block.super }}
+{% endif %}
+{% endblock %}
