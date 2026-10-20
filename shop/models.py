@@ -1,17 +1,32 @@
+import os
 import secrets
 
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.core.validators import RegexValidator
 from django.db import models
-from django.utils.functional import LazyObject
+from django.utils.deconstruct import deconstructible
 
 
-class PrivateStorage(LazyObject):
-    """Yopiq fayllar (cheklar, .gms): MEDIA dan tashqarida, faqat sayt orqali ruxsat bilan beriladi."""
+@deconstructible
+class PrivateStorage(FileSystemStorage):
+    """Yopiq fayllar (cheklar, .gms): MEDIA dan tashqarida, faqat sayt orqali ruxsat bilan beriladi.
+    Papka har safar settings.PRIVATE_ROOT dan olinadi - migratsiyaga kompyuter yo'li yozilmaydi."""
 
-    def _setup(self):
-        self._wrapped = FileSystemStorage(location=settings.PRIVATE_ROOT, base_url=None)
+    def __init__(self):
+        super().__init__()
+
+    @property
+    def base_location(self):
+        return str(settings.PRIVATE_ROOT)
+
+    @property
+    def location(self):
+        return os.path.abspath(self.base_location)
+
+    @property
+    def base_url(self):
+        return None
 
 
 private_storage = PrivateStorage()
