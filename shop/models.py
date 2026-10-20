@@ -56,7 +56,7 @@ class Plugin(models.Model):
     version = models.CharField("versiya", max_length=20, blank=True)
     corel_versions = models.CharField("CorelDRAW versiyalari", max_length=80, default="2020 – 2026")
     secret = models.CharField("maxfiy kalit", max_length=64, blank=True,
-                              help_text="Bo'sh qoldirilsa avtomatik yaratiladi. Plagindagi SunatLicense.bas ga yoziladi.")
+                              help_text="Bo'sh qoldirilsa avtomatik yaratiladi (Tez-Tez uchun .env dagi LIC_SECRET olinadi). Plagindagi SunatLicense.bas ga yoziladi.")
     active = models.BooleanField("sotuvda", default=True)
     sort = models.PositiveIntegerField("tartib", default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -72,7 +72,8 @@ class Plugin(models.Model):
     def save(self, *args, **kwargs):
         self.prefix = self.prefix.upper()
         if not self.secret:
-            self.secret = new_secret()
+            # Tez-Tez kaliti plaginda allaqachon bor (TezTezAdmin.bas dagi LIC_SECRET) - tasodifiy bo'lmasligi kerak
+            self.secret = settings.LIC_SECRET if self.prefix == "TT" and settings.LIC_SECRET else new_secret()
         super().save(*args, **kwargs)
 
     @property

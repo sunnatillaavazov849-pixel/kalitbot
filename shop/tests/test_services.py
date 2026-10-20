@@ -118,6 +118,14 @@ class ServicesTest(TestCase):
         self.assertIn("topilmadi", S.claim_tz(self.user, "YYYY-3333")[1])
         self.assertEqual(S.request_activation(self.user, self.tt, "K7QM-3XPA").kind, S.BOUND)
 
+    def test_secret_defaults(self):
+        with self.settings(LIC_SECRET="TezTezKalit"):
+            Plugin.objects.all().delete()
+            self.assertEqual(Plugin.objects.create(prefix="tt", name="T", slug="t", price=1).secret, "TezTezKalit")
+            mb = Plugin.objects.create(prefix="MB", name="M", slug="m", price=1)
+            self.assertEqual(len(mb.secret), 32)
+            self.assertNotEqual(mb.secret, "TezTezKalit")
+
     def test_order_is_per_user(self):
         other = User.objects.create_user("998900000000", password="x", phone="+998900000000", name="B")
         S.create_order(other, self.tt, "K7QM-3XPA", receipt())
