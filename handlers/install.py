@@ -11,14 +11,16 @@ router = Router()
 STEPS = (
     "📖 <b>O'rnatish</b>\n\n"
     "1) 🛒 <b>Plaginlar</b> bo'limidan plaginni tanlab, ZIP'ni yuklab oling.\n"
-    "2) ZIP ustiga o'ng tugma → <b>Extract All</b> (chiqarib olish).\n"
-    f"3) <b>{config.APP_NAME}.exe</b> ni oching. Ko'k \"Windows protected your PC\" oynasi chiqsa: "
-    "<b>More info → Run anyway</b>.\n"
-    "4) <b>Plagin qo'shish</b> → ZIP'ni tanlang → CorelDRAW versiyangizni belgilang → <b>O'rnatish</b>.\n"
-    "5) <b>Plaginlarim</b> → plagin kartochkasidagi <b>so'rov ID</b>'ni nusxalab, botga yuboring.\n"
-    "6) To'lov chekini yuboring. Admin tasdiqlagach kelgan kodni dasturga kiriting → <b>Faollashtirish</b>.\n"
-    "7) CorelDRAW'ni qayta oching — plagin ishlaydi.\n\n"
-    "Boshqa kompyuterga o'tish: 🔄 <b>Boshqa PC'ga ko'chirish</b>."
+    "2) ZIP ustiga o'ng tugma → <b>Extract All</b> (chiqarib olish). Ichida <b>.gms</b> fayl bor.\n"
+    "3) CorelDRAW'ni yoping va <b>.gms</b> ni GMS papkasiga nusxalang. Masalan CorelDRAW 2020 uchun Explorer'ning "
+    "manzil qatoriga yozing:\n<code>%APPDATA%\\Corel\\CorelDRAW Graphics Suite 2020\\Draw\\GMS</code>\n"
+    "(boshqa versiyada papka nomi boshqacha — videoda ko'rsatilgan).\n"
+    "4) CorelDRAW'ni oching va plaginni ishga tushiring — oynada <b>so'rov ID</b> chiqadi "
+    "(masalan <code>TT-K7QM-3XPA</code>). Uni nusxalab, shu botga yuboring.\n"
+    "5) To'lov chekini yuboring. Admin tasdiqlagach bot kod beradi — uni plagin oynasiga qo'yib <b>OK</b> bosing.\n\n"
+    "Boshqa kompyuterga o'tish: CorelDRAW'da <b>Alt+F8 → SunatDezaktiv</b> → chiqqan tasdiq kodini "
+    "🔄 <b>Boshqa PC'ga ko'chirish</b> bo'limiga yuboring.\n\n"
+    f"Xohlasangiz, plaginni <b>{config.APP_NAME}</b> dasturi orqali ham o'rnatish mumkin (ixtiyoriy)."
 )
 
 

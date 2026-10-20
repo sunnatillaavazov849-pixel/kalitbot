@@ -57,7 +57,7 @@ fallback = Router()
 @fallback.message()
 async def unknown(message: Message):
     await message.answer(
-        "Bo'limni tanlang. Plaginni faollashtirish uchun dasturdagi so'rov ID'ni yuboring "
+        "Bo'limni tanlang. Plaginni faollashtirish uchun plagin oynasidagi so'rov ID'ni yuboring "
         "(masalan <code>TT-K7QM-3XPA</code>).",
         reply_markup=MAIN_KB,
     )

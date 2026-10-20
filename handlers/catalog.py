@@ -2,7 +2,6 @@
 from aiogram import F, Router
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-import config
 from .common import db, esc
 
 router = Router()
@@ -68,8 +67,8 @@ async def cb_download(call: CallbackQuery):
         caption=(
             f"<b>{esc(p['name'])}</b>\n\n"
             "1) ZIP'ni kompyuterga saqlang va <b>Extract All</b> bilan chiqarib oling.\n"
-            f"2) <b>{config.APP_NAME}.exe</b> ni oching → <b>Plagin qo'shish</b> → shu ZIP'ni tanlang.\n"
-            "3) Dasturdagi <b>so'rov ID</b>'ni nusxalab, shu botga yuboring.\n\n"
+            "2) Ichidagi <b>.gms</b> faylni CorelDRAW'ning GMS papkasiga qo'ying (<b>O'qing.txt</b> da yozilgan).\n"
+            "3) CorelDRAW'da plaginni oching — oynadagi <b>so'rov ID</b>'ni shu botga yuboring.\n\n"
             "Videoli yo'riqnoma: 📖 O'rnatish"
         ),
     )

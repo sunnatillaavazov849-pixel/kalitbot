@@ -72,7 +72,8 @@ namespace Sunat.Plaginlar.Pages
             var body = Ui.V(16, head);
             if (!string.IsNullOrWhiteSpace(p.Description))
                 body.Children.Add(Spaced(Ui.T(p.Description, 13, null, Ui.Muted, true), 16));
-            if (!p.FilesPresent)
+            // Files bo'sh bo'lsa plagin dastur orqali emas, qo'lda o'rnatilgan (CorelDRAW ichida faollashtirilgan)
+            if (p.Files.Length > 0 && !p.FilesPresent)
                 body.Children.Add(Spaced(Note("Plagin fayli topilmadi. Uni qayta o'rnating: Plagin qo'shish.", Ui.RedFg, Ui.RedBg), 16));
 
             body.Children.Add(Spaced(Ui.Divider(), 16));

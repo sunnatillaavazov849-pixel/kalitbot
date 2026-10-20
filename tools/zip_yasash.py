@@ -1,14 +1,14 @@
 """Mijozga beriladigan plagin ZIP'ini yasaydi (botga /plagin_qosh yoki /plagin_zip bilan yuklanadi).
 
 ZIP ichida:
-  Sunat.cc Plaginlar.exe      - mini ilova
-  plagin/manifest.json        - plagin haqida ma'lumot (mini ilova o'qiydi)
+  O'qing.txt                  - o'rnatish yo'riqnomasi
   plagin/<plagin>.gms         - plagin fayli(lari)
-  O'qing.txt                  - qisqa yo'riqnoma
+  plagin/manifest.json        - plagin haqida ma'lumot (mini ilova o'qiydi)
+  Sunat.cc Plaginlar.exe      - mini ilova (ixtiyoriy, faqat --exe berilsa)
 
 Misol:
   python tools/zip_yasash.py --prefix TT --name "Tez-Tez" --version 2.0 ^
-      --gms "C:\\Plaginlar\\TezTez.gms" --exe "Sunat.cc Plaginlar.exe" --bot https://t.me/teztez_sunat_bot
+      --gms "C:\\Plaginlar\\TezTez.gms" --bot https://t.me/teztez_sunat_bot
 """
 import argparse
 import json
@@ -18,23 +18,37 @@ import sys
 import zipfile
 
 APP_EXE = "Sunat.cc Plaginlar.exe"
-HERE = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_EXE = [
-    os.path.join(os.getcwd(), APP_EXE),
-    os.path.join(HERE, "..", "miniilova", "SunatPlaginlar", "bin", "Release", "net48", "SunatPlaginlar.exe"),
-]
 
-README = """{name} — Sunat.cc plagini
+README = """{name} - Sunat.cc plagini
 
+O'RNATISH
 1) Shu ZIP'ni chiqarib oling (o'ng tugma -> Extract All / Извлечь все).
-2) "{exe}" ni oching.
-   Ko'k "Windows protected your PC" oynasi chiqsa: More info -> Run anyway.
-3) "Plagin qo'shish" bo'limi plaginni o'zi taklif qiladi -> CorelDRAW versiyasini belgilang -> O'rnatish.
-   (CorelDRAW yopiq bo'lsin.)
-4) "Plaginlarim" -> so'rov ID'ni ({prefix}-XXXX-XXXX) nusxalab, Telegram botga yuboring.
-5) To'lovdan keyin bot bergan kodni dasturga kiriting -> Faollashtirish.
+2) CorelDRAW'ni yoping.
+3) "plagin" papkasidagi {files} faylni CorelDRAW'ning GMS papkasiga nusxalang.
+   Explorer'ning manzil qatoriga yozing va Enter bosing (CorelDRAW 2020 misolida):
+      %APPDATA%\\Corel\\CorelDRAW Graphics Suite 2020\\Draw\\GMS
+   Boshqa versiyada "2020" o'rniga o'z versiyangiz papkasi bo'ladi.
+   Bu papka bo'lmasa:  C:\\Program Files\\Corel\\<CorelDRAW papkasi>\\Draw\\GMS
+4) CorelDRAW'ni oching va plaginni ishga tushiring.
 
+FAOLLASHTIRISH
+5) Plagin oynasida so'rov ID chiqadi (masalan {prefix}-K7QM-3XPA).
+   U belgilangan holda turadi - Ctrl+C bilan nusxalab, Telegram botga yuboring.
+6) To'lov chekini botga yuboring. Admin tasdiqlagach bot kod beradi.
+7) Kodni o'sha oynaga qo'ying va OK bosing - plagin ishlaydi.
+
+BOSHQA KOMPYUTERGA O'TISH
+   CorelDRAW'da Alt+F8 -> SunatDezaktiv -> chiqqan tasdiq kodini botdagi
+   "Boshqa PC'ga ko'chirish" bo'limiga yuboring. Kuniga 1, jami 3 marta.
+{exe_note}
+Videolar: botdagi "O'rnatish" bo'limi.
 Aloqa: Telegram @sunat_aa | Instagram @sunat_cc | +998 33 400 00 43
+"""
+
+EXE_NOTE = """
+OSONROQ YO'L (ixtiyoriy)
+   "{exe}" ni oching (ko'k oyna chiqsa: More info -> Run anyway) ->
+   "Plagin qo'shish" -> plaginni o'zi to'g'ri papkaga qo'yadi.
 """
 
 
@@ -46,7 +60,7 @@ def main(argv=None):
     ap.add_argument("--version", default="")
     ap.add_argument("--description", default="")
     ap.add_argument("--bot", default="", help="Telegram bot havolasi, masalan https://t.me/teztez_sunat_bot")
-    ap.add_argument("--exe", default="", help=f"mini ilova ({APP_EXE})")
+    ap.add_argument("--exe", default="", help=f"mini ilova ({APP_EXE}) - ixtiyoriy")
     ap.add_argument("--out", default="", help="natija ZIP (standart: <PREFIKS>_<nom>.zip)")
     a = ap.parse_args(argv)
 
@@ -56,26 +70,31 @@ def main(argv=None):
     for g in a.gms:
         if not os.path.isfile(g):
             sys.exit(f"Fayl topilmadi: {g}")
-    exe = a.exe or next((p for p in DEFAULT_EXE if os.path.isfile(p)), "")
-    if not os.path.isfile(exe):
-        sys.exit(f"Mini ilova topilmadi. --exe bilan ko'rsating ({APP_EXE})")
+    if a.exe and not os.path.isfile(a.exe):
+        sys.exit(f"Mini ilova topilmadi: {a.exe}")
 
+    files = [os.path.basename(g) for g in a.gms]
     manifest = {
         "prefix": prefix,
         "name": a.name,
         "version": a.version,
         "description": a.description,
         "bot": a.bot,
-        "files": [os.path.basename(g) for g in a.gms],
+        "files": files,
     }
+    readme = README.format(
+        name=a.name, prefix=prefix, files=", ".join(files),
+        exe_note=EXE_NOTE.format(exe=APP_EXE) if a.exe else "",
+    )
     safe = re.sub(r"[^A-Za-z0-9_-]+", "", a.name.replace(" ", "_")) or "plagin"
     out = a.out or f"{prefix}_{safe}.zip"
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
-        z.write(exe, APP_EXE)
-        z.writestr("plagin/manifest.json", json.dumps(manifest, ensure_ascii=False, indent=2))
+        z.writestr("O'qing.txt", readme.replace("\n", "\r\n"))
         for g in a.gms:
             z.write(g, "plagin/" + os.path.basename(g))
-        z.writestr("O'qing.txt", README.format(name=a.name, exe=APP_EXE, prefix=prefix).replace("\n", "\r\n"))
+        z.writestr("plagin/manifest.json", json.dumps(manifest, ensure_ascii=False, indent=2))
+        if a.exe:
+            z.write(a.exe, APP_EXE)
     print("tayyor:", os.path.abspath(out))
     return out
 

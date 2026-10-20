@@ -1,19 +1,19 @@
-# Sunat.cc Plaginlar — Telegram bot + Windows mini ilova
+# Sunat.cc Plaginlar — Telegram bot
 
 CorelDRAW plaginlarini sotish va faollashtirish tizimi:
 
 | Qism | Qayerda | Vazifasi |
 |---|---|---|
 | **Telegram bot** | shu repo (`bot.py`, `handlers/`) | katalog, to'lov, admin tasdig'i, faollashtirish kodlari, ko'chirish, o'rnatish videolari |
-| **Mini ilova** `Sunat.cc Plaginlar.exe` | `miniilova/` | kompyuter ID, plaginni CorelDRAW'ga o'rnatish, kodni kiritish, dezaktivatsiya |
-| **Plagin moduli** `SunatLicense.bas` | `corel_palgin` repo | plagin CorelDRAW'da ochilganda kodni tekshiradi |
+| **Plagin moduli** `SunatLicense.bas` | `corel_palgin` repo | plagin ichida: so'rov ID ko'rsatadi, kodni so'raydi va tekshiradi, `SunatDezaktiv` |
+| Mini ilova `Sunat.cc Plaginlar.exe` (ixtiyoriy) | `miniilova/` | plaginni CorelDRAW papkasiga o'zi qo'yadi; kodlar plagin bilan bir xil joyda |
 
 ## Mijoz yo'li
-1. Bot: `/start` → ism, telefon → **🛒 Plaginlar** → ZIP yuklab oladi (ichida mini ilova + plagin).
-2. Mini ilova: **Plagin qo'shish** → CorelDRAW versiyasi → O'rnatish → **so'rov ID** (`TT-K7QM-3XPA`).
+1. Bot: `/start` → ism, telefon → **🛒 Plaginlar** → ZIP yuklab oladi (plagin + `O'qing.txt`).
+2. `.gms` ni CorelDRAW'ning GMS papkasiga qo'yadi, plaginni ochadi → oynada **so'rov ID** (`TT-K7QM-3XPA`).
 3. Bot: so'rov ID → narx va karta → chek → admin ✅ → **kod** (`TT-XXXX-XXXX-XXXX`).
-4. Mini ilova: kodni kiritadi → plagin faol.
-5. Boshqa kompyuter: mini ilovada **Dezaktiv qilish** → tasdiq kodi → botda **🔄 Boshqa PC'ga ko'chirish**
+4. Kodni plagin oynasiga kiritadi → plagin darhol ishlaydi.
+5. Boshqa kompyuter: CorelDRAW'da `Alt+F8` → **SunatDezaktiv** → tasdiq kodi → botda **🔄 Boshqa PC'ga ko'chirish**
    (sabab so'raladi) → yangi kompyuterning so'rov ID'si → kod **to'lovsiz**.
    Kuniga 1 marta, jami 3 marta; undan keyin litsenziya bloklanadi (admin `/blokdan_chiqar` qiladi).
 6. Eski `TZ-` mijozlar: **♻️ Eski litsenziya** → eski kompyuter kodi → yangi tizimga bepul o'tadi.

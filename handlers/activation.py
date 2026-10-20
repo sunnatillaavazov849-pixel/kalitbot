@@ -28,8 +28,8 @@ class Leg(StatesGroup):
 
 REQUEST_HELP = (
     "🔑 <b>Faollashtirish</b>\n\n"
-    f"<b>{config.APP_NAME}</b> dasturini oching → <b>Plaginlarim</b> → kerakli plagin kartochkasidagi "
-    "<b>so'rov ID</b>'ni nusxalang (masalan <code>TT-K7QM-3XPA</code>) va shu yerga yuboring.\n\n"
+    "CorelDRAW'da plaginni oching — faollashtirish oynasidagi <b>so'rov ID</b>'ni nusxalang "
+    "(masalan <code>TT-K7QM-3XPA</code>) va shu yerga yuboring.\n\n"
     "Bekor qilish: /bekor"
 )
 
@@ -76,8 +76,7 @@ async def send_code(bot: Bot, chat_id: int, prefix: str, mid: str, code: str, ti
         f"🧩 Plagin: <b>{esc(plugin_name(prefix))}</b>\n"
         f"💻 Kompyuter ID: <code>{mid}</code>\n"
         f"🔑 Faollashtirish kodi: <code>{code}</code>\n\n"
-        f"Kodni <b>{config.APP_NAME}</b> dasturida shu plagin kartochkasidagi maydonga kiriting "
-        "va <b>Faollashtirish</b> tugmasini bosing.\n"
+        "Kodni CorelDRAW'dagi plagin oynasiga qo'yib <b>OK</b> bosing — plagin darhol ishlaydi.\n"
         "⚠️ Kod faqat shu kompyuterda ishlaydi.",
         reply_markup=MAIN_KB,
     )
@@ -339,7 +338,7 @@ async def got_legacy(message: Message, state: FSMContext):
     lic_id = db.create_license(uid, "TT", dbm.ESKI, order_id=o["id"])
     await message.answer(
         "✅ Eski litsenziyangiz yangi tizimga o'tkazildi.\n\n"
-        f"Endi <b>{config.APP_NAME}</b> dasturini o'rnating, Tez-Tez plaginini qo'shing va dastur ko'rsatgan "
+        "Endi Tez-Tez'ning yangi versiyasini (🛒 Plaginlar) o'rnating, CorelDRAW'da oching va oynadagi "
         "so'rov ID'ni shu yerga yuboring — kod <b>to'lovsiz</b> beriladi.",
         reply_markup=MAIN_KB,
     )

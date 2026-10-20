@@ -2,7 +2,7 @@
 chcp 65001 >nul
 title Plagin ZIP yasash
 cd /d "%~dp0"
-rem Mijozga beriladigan plagin ZIP'ini yasaydi: Sunat.cc Plaginlar.exe + plagin + manifest.
+rem Mijozga beriladigan plagin ZIP'ini yasaydi: plagin + yo'riqnoma (+ Sunat.cc Plaginlar.exe, shu papkada bo'lsa).
 rem Ishlatish: .gms faylni shu fayl ustiga sudrab tashlang yoki ikki marta bosing.
 
 set "PY=python"
@@ -10,7 +10,9 @@ if exist "venv\Scripts\python.exe" set "PY=venv\Scripts\python.exe"
 "%PY%" --version >nul 2>nul
 if errorlevel 1 goto nopython
 
-if not exist "Sunat.cc Plaginlar.exe" goto noexe
+rem Mini ilova ixtiyoriy: shu papkada bo'lsa ZIP'ga qo'shiladi
+set "EXEARG="
+if exist "Sunat.cc Plaginlar.exe" set EXEARG=--exe "Sunat.cc Plaginlar.exe"
 
 set "GMS=%~1"
 if not "%GMS%"=="" goto havegms
@@ -33,7 +35,7 @@ set "BOT="
 set /p "BOT=Bot havolasi, masalan https://t.me/teztez_sunat_bot - bo'sh qoldirsa ham bo'ladi: "
 echo.
 
-"%PY%" tools\zip_yasash.py --prefix "%PREFIX%" --name "%NAME%" --version "%VER%" --bot "%BOT%" --gms "%GMS%" --exe "Sunat.cc Plaginlar.exe"
+"%PY%" tools\zip_yasash.py --prefix "%PREFIX%" --name "%NAME%" --version "%VER%" --bot "%BOT%" --gms "%GMS%" %EXEARG%
 if errorlevel 1 goto failed
 
 echo.
@@ -44,11 +46,6 @@ exit /b 0
 
 :nopython
 echo Python topilmadi. Avval ishga_tushirish.bat ni bir marta ishga tushiring yoki python.org dan o'rnating.
-pause
-exit /b 1
-
-:noexe
-echo "Sunat.cc Plaginlar.exe" shu papkada yo'q. Uni GitHub Actions'dan yuklab, shu papkaga qo'ying.
 pause
 exit /b 1
 

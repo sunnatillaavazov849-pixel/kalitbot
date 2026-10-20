@@ -21,9 +21,9 @@ WELCOME = (
     f"Assalomu alaykum! <b>{config.BRAND}</b> — CorelDRAW uchun plaginlar.\n\n"
     "<b>Qanday ishlaydi:</b>\n"
     "1) 🛒 <b>Plaginlar</b> bo'limidan keraklisini tanlab, ZIP faylni yuklab olasiz.\n"
-    f"2) ZIP ichidagi <b>{config.APP_NAME}</b> dasturini ochib, plaginni o'rnatasiz.\n"
-    "3) Dastur ko'rsatgan <b>so'rov ID</b>'ni shu yerga yuborasiz va to'lov qilasiz.\n"
-    "4) Admin tasdiqlagach, bot <b>faollashtirish kodi</b>ni beradi — uni dasturga kiritasiz.\n\n"
+    "2) Plaginni CorelDRAW'ga qo'yasiz va ochasiz — oynada <b>so'rov ID</b> chiqadi.\n"
+    "3) So'rov ID'ni shu yerga yuborasiz va to'lov qilasiz.\n"
+    "4) Admin tasdiqlagach, bot <b>faollashtirish kodi</b>ni beradi — uni plagin oynasiga kiritasiz.\n\n"
     "Batafsil va videolar: 📖 <b>O'rnatish</b>."
 )
 

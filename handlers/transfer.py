@@ -120,9 +120,10 @@ async def got_reason(message: Message, state: FSMContext):
     await state.set_state(Tr.confirm)
     await message.answer(
         "Endi <b>eski kompyuterda</b>:\n"
-        f"1) <b>{config.APP_NAME}</b> dasturini oching → <b>Plaginlarim</b>;\n"
-        "2) plagin kartochkasida <b>Dezaktiv qilish</b> ni bosing;\n"
-        "3) dastur ko'rsatgan <b>tasdiq kodini</b> (masalan <code>AB3K-7QMX</code>) shu yerga yuboring.\n\n"
+        "1) CorelDRAW'ni oching va <b>Alt+F8</b> ni bosing;\n"
+        "2) ro'yxatdan <b>SunatDezaktiv</b> ni tanlab, <b>Run</b> → <b>Yes</b>;\n"
+        "3) chiqqan <b>tasdiq kodini</b> (masalan <code>AB3K-7QMX</code>) shu yerga yuboring.\n"
+        f"({config.APP_NAME} dasturi bo'lsa: plagin kartochkasida <b>Dezaktiv qilish</b>.)\n\n"
         "Eski kompyuter umuman ishlamasa (Windows uchgan, disk buzilgan), pastdagi tugmani bosing.",
         reply_markup=NOCODE_KB,
     )
@@ -139,7 +140,7 @@ async def got_confirm(message: Message, state: FSMContext):
         return
     if code is None or code != deact_confirm(lic["code"], lic["mid"]):
         await message.answer(
-            "Tasdiq kodi noto'g'ri. Dasturdagi kodni aynan ko'chirib yuboring yoki pastdagi tugmani bosing.",
+            "Tasdiq kodi noto'g'ri. SunatDezaktiv ko'rsatgan kodni aynan ko'chirib yuboring yoki pastdagi tugmani bosing.",
             reply_markup=NOCODE_KB,
         )
         return
@@ -166,7 +167,7 @@ async def finish(message: Message, state: FSMContext, confirmed: bool):
     warn = "\n⚠️ Bu oxirgi ko'chirish edi. Keyingi urinishda litsenziya bloklanadi." if left == 0 else ""
     await message.answer(
         "✅ Litsenziya eski kompyuterdan bo'shatildi.\n\n"
-        f"Yangi kompyuterda <b>{config.APP_NAME}</b> dasturini o'rnating, plaginni qo'shing va yangi "
+        "Yangi kompyuterda plaginni CorelDRAW'ga qo'ying, oching va oynadagi yangi "
         "<b>so'rov ID</b>'ni shu yerga yuboring — kod <b>to'lovsiz</b> beriladi.\n\n"
         f"Qolgan ko'chirishlar: <b>{left}</b>{warn}",
         reply_markup=MAIN_KB,

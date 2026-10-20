@@ -321,7 +321,7 @@ async def cmd_unblock(message: Message, command: CommandObject):
         await message.bot.send_message(
             lic["user_id"],
             f"✅ <b>{esc(plugin_name(lic['plugin']))}</b> litsenziyangiz blokdan chiqarildi.\n"
-            f"Yangi kompyuterda {config.APP_NAME} dasturidagi so'rov ID'ni yuboring — kod to'lovsiz beriladi.",
+            "Yangi kompyuterda plagin oynasidagi so'rov ID'ni yuboring — kod to'lovsiz beriladi.",
             reply_markup=MAIN_KB,
         )
     except Exception:
@@ -344,7 +344,7 @@ async def cmd_grant(message: Message, command: CommandObject):
         await message.bot.send_message(
             uid,
             f"🎁 Sizga <b>{esc(plugin_name(prefix))}</b> litsenziyasi berildi.\n"
-            f"{config.APP_NAME} dasturidagi so'rov ID'ni shu yerga yuboring — kod to'lovsiz beriladi.",
+            "Plaginni CorelDRAW'da oching va oynadagi so'rov ID'ni shu yerga yuboring — kod to'lovsiz beriladi.",
             reply_markup=MAIN_KB,
         )
     except Exception:
