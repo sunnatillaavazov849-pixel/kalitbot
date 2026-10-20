@@ -5,10 +5,14 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
+    <NoWarn>SYSLIB0014;CA1416</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\SunatCore\*.cs" Link="SunatCore\%(Filename)%(Extension)" />
     <!-- mini ilovaning ZIP o'quvchisi: tools/zip_yasash.py yasagan paketni o'qiy olishini tekshiramiz -->
     <Compile Include="..\SunatPlaginlar\Services\PackageInstaller.cs" Link="Services\PackageInstaller.cs" />
+    <!-- saytdagi /api/plaginlar.json javobini o'qish -->
+    <Compile Include="..\SunatPlaginlar\Services\Catalog.cs" Link="Services\Catalog.cs" />
+    <Compile Include="..\SunatPlaginlar\AppInfo.cs" Link="AppInfo.cs" />
   </ItemGroup>
 </Project>

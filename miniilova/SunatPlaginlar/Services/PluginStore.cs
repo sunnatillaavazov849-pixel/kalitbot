@@ -9,7 +9,7 @@ namespace Sunat.Plaginlar.Services
 {
     class InstalledPlugin
     {
-        public string Prefix, Name, Version, Description, Bot, Code, DeactConfirm, InstalledAt, ActivatedAt;
+        public string Prefix, Name, Version, Description, Code, DeactConfirm, InstalledAt, ActivatedAt;
         public string[] Files = new string[0];
 
         public bool IsActive => !string.IsNullOrEmpty(Code) && Licensing.NormalizeCode(Code, Prefix) != null;
@@ -41,7 +41,6 @@ namespace Sunat.Plaginlar.Services
                             Name = S(k, "Name"),
                             Version = S(k, "Version"),
                             Description = S(k, "Description"),
-                            Bot = S(k, "Bot"),
                             Code = S(k, "Code"),
                             DeactConfirm = S(k, "DeactConfirm"),
                             InstalledAt = S(k, "InstalledAt"),
@@ -65,17 +64,18 @@ namespace Sunat.Plaginlar.Services
                 k.SetValue("Name", pkg.Name ?? pkg.Prefix);
                 k.SetValue("Version", pkg.Version ?? "");
                 k.SetValue("Description", pkg.Description ?? "");
-                if (!string.IsNullOrEmpty(pkg.Bot)) k.SetValue("Bot", pkg.Bot);
                 k.SetValue("Files", string.Join("|", files));
                 k.SetValue("InstalledAt", Now());
             }
         }
 
-        public static void SetCode(string prefix, string code)
+        public static void SetCode(string prefix, string code, string name = null)
         {
             using (var root = Root(true))
             using (var k = root.CreateSubKey(prefix))
             {
+                if (!string.IsNullOrEmpty(name) && string.IsNullOrEmpty(k.GetValue("Name") as string))
+                    k.SetValue("Name", name);
                 k.SetValue("Code", code);
                 k.SetValue("ActivatedAt", Now());
                 k.DeleteValue("DeactConfirm", false);
@@ -100,10 +100,5 @@ namespace Sunat.Plaginlar.Services
                 root.DeleteSubKeyTree(prefix, false);
         }
 
-        public static string BotUrl()
-        {
-            string bot = All().Select(p => p.Bot).FirstOrDefault(b => !string.IsNullOrWhiteSpace(b));
-            return bot ?? AppInfo.DefaultBotUrl;
-        }
     }
 }

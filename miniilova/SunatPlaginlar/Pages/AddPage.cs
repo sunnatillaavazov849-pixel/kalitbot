@@ -17,20 +17,26 @@ namespace Sunat.Plaginlar.Pages
         readonly StackPanel _details = new StackPanel();
         PackageInfo _pkg;
 
-        public AddPage(MainWindow w) { _w = w; }
+        readonly PackageInfo _preset;
+
+        public AddPage(MainWindow w, PackageInfo preset = null) { _w = w; _preset = preset; }
 
         public UIElement Build()
         {
             var page = Ui.V(28,
-                Ui.V(8, Ui.H1("Plagin qo'shish"),
-                     Ui.Sub("Botdan olingan ZIP faylni tanlang yoki shu yerga sudrab tashlang. Dastur plaginni CorelDRAW papkasiga o'zi joylaydi.")),
+                Ui.V(8, Ui.H1("Plaginni o'rnatish"),
+                     Ui.Sub("Saytdagi kabinetdan yuklab olingan ZIP faylni tanlang yoki shu yerga sudrab tashlang. Dastur plaginni CorelDRAW papkasiga o'zi joylaydi.")),
                 DropZone(),
                 _details);
 
             // ZIP ochilgan papkadan ishga tushirilgan bo'lsa - yonidagi plaginni darhol taklif qilamiz
             string exeDir = AppDomain.CurrentDomain.BaseDirectory;
-            var nearby = PackageInstaller.FindNearby(exeDir);
-            if (nearby.Count > 0) Show(nearby[0]);
+            if (_preset != null) Show(_preset);
+            else
+            {
+                var nearby = PackageInstaller.FindNearby(exeDir);
+                if (nearby.Count > 0) Show(nearby[0]);
+            }
             return page;
         }
 
@@ -215,17 +221,26 @@ namespace Sunat.Plaginlar.Pages
             }
 
             var p = PluginStore.Get(_pkg.Prefix);
+            if (p.IsActive)
+            {
+                _w.Dialog($"{_pkg.Name} o'rnatildi",
+                    Ui.T("Plagin shu kompyuterda allaqachon faollashtirilgan. CorelDRAW'ni oching — plagin ishlaydi.",
+                         14, null, Ui.Muted, true),
+                    ("Plaginlar", Ui.PillKind.Primary, () => _w.Navigate("plugins")));
+                return;
+            }
             var rid = Ui.T(p.RequestId, 26, FontWeights.Bold, Ui.Ink, false, Ui.Mono);
             rid.HorizontalAlignment = HorizontalAlignment.Center;
+            var cat = Catalog.Last?.Plugins.FirstOrDefault(c => string.Equals(c.Prefix, _pkg.Prefix, StringComparison.OrdinalIgnoreCase));
             _w.Dialog($"{_pkg.Name} o'rnatildi",
                 Ui.V(14,
-                    Ui.T("Endi shu so'rov ID'ni botga yuboring. To'lovdan keyin bot faollashtirish kodini beradi.", 14, null, Ui.Muted, true),
+                    Ui.T("Endi faollashtirish kodini kiriting: «Plaginlar» bo'limida shu plagin kartochkasida. " +
+                         "Kodingiz bo'lmasa — shu so'rov kodi bilan saytda sotib oling:", 14, null, Ui.Muted, true),
                     new Border { CornerRadius = new CornerRadius(18), Background = Ui.Pastel(0.6), Padding = new Thickness(18), Child = rid },
-                    Ui.T("CorelDRAW'da plagin ko'rinmasa: Tools → Macros → Macro Manager (yoki Alt+F11) orqali tekshiring. Botdagi «📖 O'rnatish» bo'limida video bor.",
-                         12, null, Ui.Muted, true)),
-                ("Nusxalash", Ui.PillKind.Secondary, () => _w.Copy(p.RequestId, "So'rov ID nusxalandi — endi botga yuboring")),
-                ("Botni ochish", Ui.PillKind.Secondary, () => MainWindow.OpenUrl(PluginStore.BotUrl())),
-                ("Plaginlarim", Ui.PillKind.Primary, () => _w.Navigate("plugins")));
+                    Ui.T("CorelDRAW'da plagin ko'rinmasa: Tools → Macros → Macro Manager (yoki Alt+F11) orqali tekshiring. " +
+                         "Saytdagi «Yordam» sahifasida video bor.", 12, null, Ui.Muted, true)),
+                ("Saytda sotib olish", Ui.PillKind.Secondary, () => MainWindow.OpenUrl(Catalog.BuyUrl(cat, p.RequestId))),
+                ("Kodni kiritish", Ui.PillKind.Primary, () => _w.Navigate("plugins")));
         }
     }
 }

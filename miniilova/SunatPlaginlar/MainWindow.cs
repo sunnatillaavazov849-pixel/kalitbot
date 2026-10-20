@@ -36,6 +36,13 @@ namespace Sunat.Plaginlar
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             UseLayoutRounding = true;
             TextOptions.SetTextFormattingMode(this, TextFormattingMode.Display);
+            try
+            {
+                using (var ico = typeof(MainWindow).Assembly.GetManifestResourceStream("app.ico"))
+                    Icon = System.Windows.Media.Imaging.BitmapFrame.Create(ico,
+                        System.Windows.Media.Imaging.BitmapCreateOptions.None, System.Windows.Media.Imaging.BitmapCacheOption.OnLoad);
+            }
+            catch { }
 
             var root = new Grid();
             root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(260) });
@@ -75,7 +82,8 @@ namespace Sunat.Plaginlar
             root.Children.Add(_overlay);
 
             Content = root;
-            Navigate(PluginStore.All().Count == 0 ? "add" : "plugins");
+            Navigate("plugins");
+            Catalog.LoadAsync().ContinueWith(_ => Dispatcher.Invoke(() => { if (_current == "plugins") Refresh(); }));
         }
 
         UIElement BuildSidebar()
@@ -92,8 +100,8 @@ namespace Sunat.Plaginlar
                 _nav[key] = b;
                 nav.Children.Add(b);
             }
-            Add("plugins", "🧩", "Plaginlarim");
-            Add("add", "➕", "Plagin qo'shish");
+            Add("plugins", "🧩", "Plaginlar");
+            Add("add", "⬇", "Plaginni o'rnatish");
             Add("corel", "🖥", "CorelDRAW versiyalari");
             Add("help", "💬", "Yordam / aloqa");
 
@@ -145,6 +153,15 @@ namespace Sunat.Plaginlar
         }
 
         public void Refresh() => Navigate(_current);
+
+        /// <summary>Tanlangan paket bilan o'rnatish sahifasini ochadi.</summary>
+        public void ShowInstall(PackageInfo pkg)
+        {
+            _current = "add";
+            foreach (var kv in _nav) Ui.SetNavSelected(kv.Value, kv.Key == "add");
+            _content.Content = new AddPage(this, pkg).Build();
+            _scroll.ScrollToTop();
+        }
 
         public void Toast(string text, bool error = false)
         {

@@ -51,6 +51,14 @@ static class Program
             Eq("ZIP o'rnatish", "gms-ichi", File.ReadAllText(files[0]));
         }
 
+        // saytning haqiqiy JSON javobi (miniilova/sample_catalog.json)
+        string catPath = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(path)), "sample_catalog.json");
+        var cat = Sunat.Plaginlar.Services.Catalog.Parse(File.ReadAllBytes(catPath));
+        Eq("Katalog: birinchi plagin", "TT", cat.Plugins[0].Prefix);
+        Eq("Katalog: narx", "150 000 so'm", cat.Plugins[0].PriceDisplay);
+        Eq("Katalog: sotib olish havolasi", cat.Plugins[0].BuyUrl + "?kod=TT-K7QM-3XPA",
+           Sunat.Plaginlar.Services.Catalog.BuyUrl(cat.Plugins[0], "TT-K7QM-3XPA"));
+
         Console.WriteLine($"{passed} ta to'g'ri, {failed} ta xato");
         return failed == 0 ? 0 : 1;
     }

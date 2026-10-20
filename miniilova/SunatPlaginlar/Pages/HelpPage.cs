@@ -32,13 +32,13 @@ namespace Sunat.Plaginlar.Pages
         {
             var steps = Ui.Card(Ui.V(18,
                 Ui.T("Qanday ishlaydi", 20, FontWeights.SemiBold, Ui.Ink, false, Ui.Display),
-                Step("1", "Plaginni yuklab oling", "Botdagi «🛒 Plaginlar» bo'limidan ZIP faylni oling."),
-                Step("2", "Dasturga qo'shing", "«Plagin qo'shish» → ZIP → CorelDRAW versiyasini belgilang → O'rnatish. CorelDRAW yopiq bo'lsin."),
-                Step("3", "So'rov ID'ni yuboring", "«Plaginlarim» dagi so'rov ID'ni nusxalab botga yuboring va to'lov chekini jo'nating."),
-                Step("4", "Kodni kiriting", "Admin tasdiqlagach bot kod beradi. Uni plagin kartochkasiga kiriting va «Faollashtirish»ni bosing."),
-                Step("5", "Boshqa kompyuterga o'tish", "Kartochkada «Dezaktiv qilish» → tasdiq kodini botdagi «🔄 Boshqa PC'ga ko'chirish»ga yuboring. Kuniga 1, jami 3 marta.")), 28);
+                Step("1", "Saytda ro'yxatdan o'ting", AppInfo.SiteUrl.Replace("https://", "") + " — telefon raqami yoki Google bilan."),
+                Step("2", "So'rov kodini oling", "«Plaginlar» → kerakli plagin → so'rov kodi. «Saytda sotib olish» kodni saytga o'zi qo'yadi."),
+                Step("3", "To'lov qiling", "Saytda kartaga to'lang va chekni yuklang. Tekshirilgach kabinetda faollashtirish kodi chiqadi."),
+                Step("4", "O'rnating va faollashtiring", "Kabinetdan ZIP'ni yuklab oling → «Plaginni o'rnatish». Kodni plagin kartochkasiga kiriting."),
+                Step("5", "Boshqa kompyuterga o'tish", "Kartochkada «Dezaktiv qilish» → tasdiq kodini saytdagi «Kompyuterni almashtirish»ga kiriting. Kuniga 1, jami 3 marta.")), 28);
 
-            var bot = Ui.Pill("Telegram botni ochish", Ui.PillKind.Primary, () => MainWindow.OpenUrl(PluginStore.BotUrl()));
+            var bot = Ui.Pill("Saytni ochish", Ui.PillKind.Primary, () => MainWindow.OpenUrl(AppInfo.SiteUrl));
             bot.HorizontalAlignment = HorizontalAlignment.Center;
             var contacts = new WrapPanel { HorizontalAlignment = HorizontalAlignment.Center };
             contacts.Children.Add(Ui.Pill("Telegram " + AppInfo.Telegram, Ui.PillKind.Secondary, () => MainWindow.OpenUrl(AppInfo.TelegramUrl), small: true));

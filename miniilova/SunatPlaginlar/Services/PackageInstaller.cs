@@ -23,7 +23,7 @@ namespace Sunat.Plaginlar.Services
     }
 #pragma warning restore CS0649
 
-    /// <summary>Botdan olingan plagin paketi: ZIP (ichida manifest.json + .gms) yoki ochilgan papkadagi manifest.json.</summary>
+    /// <summary>Saytdan olingan plagin paketi: ZIP (ichida manifest.json + .gms) yoki ochilgan papkadagi manifest.json.</summary>
     class PackageInfo
     {
         public string Prefix, Name, Version, Description, Bot;
@@ -58,7 +58,7 @@ namespace Sunat.Plaginlar.Services
             }
             catch (Exception)
             {
-                throw new PackageException("manifest.json o'qib bo'lmadi. Paket buzilgan bo'lishi mumkin — botdan qayta yuklab oling.");
+                throw new PackageException("manifest.json o'qib bo'lmadi. Paket buzilgan bo'lishi mumkin — saytdagi kabinetdan qayta yuklab oling.");
             }
         }
 
@@ -97,7 +97,7 @@ namespace Sunat.Plaginlar.Services
                 }
             }
             if (!path.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
-                throw new PackageException("Botdan olingan .zip faylni tanlang.");
+                throw new PackageException("Saytdan olingan .zip faylni tanlang.");
             try
             {
                 using (var zip = ZipFile.OpenRead(path))
@@ -117,7 +117,7 @@ namespace Sunat.Plaginlar.Services
             }
             catch (InvalidDataException)
             {
-                throw new PackageException("ZIP fayl buzilgan. Botdan qayta yuklab oling.");
+                throw new PackageException("ZIP fayl buzilgan. Saytdagi kabinetdan qayta yuklab oling.");
             }
         }
 

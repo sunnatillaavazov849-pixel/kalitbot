@@ -1,6 +1,7 @@
-# Mini ilova (Sunat.cc Plaginlar.exe) ni yig'adi va testlaydi.
-# Natija: Actions -> oxirgi ishga tushirish -> Artifacts -> "Sunat.cc Plaginlar".
-# "miniilova-v1.0.0" kabi teg qo'yilsa, exe Releases sahifasiga ham joylanadi.
+# Windows dastur: SunatPlaginlar.exe (o'rnatishsiz) va SunatPlaginlar-Setup.exe (o'rnatuvchi).
+# Natija: Actions -> "Mini ilova" -> Artifacts.
+# "miniilova-v2.0.0" kabi teg qo'yilsa, ikkala fayl Releases'ga chiqadi;
+# saytdagi /dastur/ sahifasi releases/latest/download/... orqali shularni beradi.
 name: Mini ilova
 
 on:
@@ -15,7 +16,6 @@ on:
   pull_request:
     paths:
       - "miniilova/**"
-      - "shop/licensing.py"
   workflow_dispatch:
 
 permissions:
@@ -33,7 +33,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Mini ilovani yig'ish
+      - name: Dasturni yig'ish
         run: dotnet build miniilova/SunatPlaginlar/SunatPlaginlar.csproj -c Release -nologo
 
       - name: Namuna ZIP (sayt yasaydigan plagin ZIP'i bilan bir xil)
@@ -42,23 +42,34 @@ jobs:
           mkdir -p ziptest
           python tools/sample_zip.py ziptest/TT.zip
 
-      - name: Python = C# tekshiruvi
+      - name: Python = C# tekshiruvi (algoritm, ZIP, sayt katalogi)
         run: dotnet run --project miniilova/SunatCore.Tests -c Release -- miniilova/testvectors.json ziptest/TT.zip
 
-      - name: Exe nomini tayyorlash
-        shell: bash
+      - name: setup.exe (Inno Setup)
+        shell: pwsh
         run: |
-          mkdir -p dist
-          cp "miniilova/SunatPlaginlar/bin/Release/net48/SunatPlaginlar.exe" "dist/Sunat.cc Plaginlar.exe"
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress; }
+          $exe = (Resolve-Path "miniilova/SunatPlaginlar/bin/Release/net48/SunatPlaginlar.exe").Path
+          $ver = "2.0.0"
+          if ("${{ github.ref }}" -like "refs/tags/miniilova-v*") { $ver = "${{ github.ref_name }}".Replace("miniilova-v", "") }
+          & $iscc "/DAppExe=$exe" "/DAppVersion=$ver" miniilova/setup.iss
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          Copy-Item $exe dist/SunatPlaginlar.exe
+          Get-ChildItem dist
 
       - uses: actions/upload-artifact@v4
         with:
           name: Sunat.cc Plaginlar
-          path: dist/Sunat.cc Plaginlar.exe
+          path: |
+            dist/SunatPlaginlar.exe
+            dist/SunatPlaginlar-Setup.exe
           retention-days: 90
 
       - name: Release (faqat teg bo'lsa)
         if: startsWith(github.ref, 'refs/tags/miniilova-v')
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/Sunat.cc Plaginlar.exe
+          files: |
+            dist/SunatPlaginlar.exe
+            dist/SunatPlaginlar-Setup.exe
