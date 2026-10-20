@@ -1,0 +1,14 @@
+[Unit]
+Description=Sunat.cc Plaginlar sayti
+After=network.target
+
+[Service]
+User=sunat
+Group=sunat
+WorkingDirectory=/opt/sunat
+ExecStart=/opt/sunat/venv/bin/gunicorn sunat.wsgi:application --bind 127.0.0.1:8001 --workers 3 --timeout 60 --access-logfile -
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

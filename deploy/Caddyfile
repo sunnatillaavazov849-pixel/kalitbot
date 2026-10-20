@@ -1,0 +1,22 @@
+www.__DOMAIN__ {
+	redir https://__DOMAIN__{uri} permanent
+}
+
+__DOMAIN__ {
+	encode gzip
+	request_body {
+		max_size 20MB
+	}
+	handle /static/* {
+		root * /var/lib/sunat
+		header Cache-Control "public, max-age=604800"
+		file_server
+	}
+	handle /media/* {
+		root * /var/lib/sunat
+		file_server
+	}
+	handle {
+		reverse_proxy 127.0.0.1:8001
+	}
+}

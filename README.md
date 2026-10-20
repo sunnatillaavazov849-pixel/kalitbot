@@ -1,82 +1,64 @@
-# Sunat.cc Plaginlar — Telegram bot
+# Sunat.cc Plaginlar — sayt + Windows dastur
 
-CorelDRAW plaginlarini sotish va faollashtirish tizimi:
+CorelDRAW plaginlarini sotish va faollashtirish tizimi (Telegram botsiz).
 
 | Qism | Qayerda | Vazifasi |
 |---|---|---|
-| **Telegram bot** | shu repo (`bot.py`, `handlers/`) | katalog, to'lov, admin tasdig'i, faollashtirish kodlari, ko'chirish, o'rnatish videolari |
-| **Plagin moduli** `SunatLicense.bas` | `corel_palgin` repo | plagin ichida: so'rov ID ko'rsatadi, kodni so'raydi va tekshiradi, `SunatDezaktiv` |
-| Mini ilova `Sunat.cc Plaginlar.exe` (ixtiyoriy) | `miniilova/` | plaginni CorelDRAW papkasiga o'zi qo'yadi; kodlar plagin bilan bir xil joyda |
+| **Sayt** (Django) | `sunat/`, `accounts/`, `shop/`, `templates/`, `static/` | ro'yxatdan o'tish (telefon yoki Google), katalog, to'lov (chek), kabinet, kompyuter almashtirish, admin panel |
+| **Windows dastur** `SunatPlaginlar.exe` | `miniilova/` | plaginlar ro'yxati, so'rov kodi, plaginni CorelDRAW'ga o'rnatish, kod kiritish, dezaktivatsiya |
+| **Plagin moduli** `SunatLicense.bas` | `corel_palgin` repo | plagin ichida kodni tekshiradi (kerak bo'lsa kod so'raydi) |
 
 ## Mijoz yo'li
-1. Bot: `/start` → ism, telefon → **🛒 Plaginlar** → ZIP yuklab oladi (plagin + `O'qing.txt`).
-2. `.gms` ni CorelDRAW'ning GMS papkasiga qo'yadi, plaginni ochadi → oynada **so'rov ID** (`TT-K7QM-3XPA`).
-3. Bot: so'rov ID → narx va karta → chek → admin ✅ → **kod** (`TT-XXXX-XXXX-XXXX`).
-4. Kodni plagin oynasiga kiritadi → plagin darhol ishlaydi.
-5. Boshqa kompyuter: CorelDRAW'da `Alt+F8` → **SunatDezaktiv** → tasdiq kodi → botda **🔄 Boshqa PC'ga ko'chirish**
-   (sabab so'raladi) → yangi kompyuterning so'rov ID'si → kod **to'lovsiz**.
-   Kuniga 1 marta, jami 3 marta; undan keyin litsenziya bloklanadi (admin `/blokdan_chiqar` qiladi).
-6. Eski `TZ-` mijozlar: **♻️ Eski litsenziya** → eski kompyuter kodi → yangi tizimga bepul o'tadi.
+1. Saytda ro'yxatdan o'tadi (telefon + parol yoki Google).
+2. Windows dasturini yuklab oladi (o'rnatishsiz `.exe` yoki `setup.exe`).
+3. Dasturda plaginni tanlaydi → **so'rov kodi** (`TT-K7QM-3XPA`) → "Saytda sotib olish" (kod saytga o'zi tushadi).
+4. Saytda kartaga to'laydi, chekni yuklaydi → admin tasdiqlaydi → kabinetda **faollashtirish kodi** va plagin ZIP'i.
+5. Dasturda "Plaginni o'rnatish" → ZIP → CorelDRAW versiyasi; kodni kiritadi → plagin ishlaydi.
+6. Kompyuter almashsa: dasturda "Dezaktiv qilish" → tasdiq kodi → saytda "Kompyuterni almashtirish"
+   (kuniga 1, jami 3 marta; keyin blok — admin blokdan chiqaradi) → yangi kompyuterda kod to'lovsiz.
 
-## Botni o'rnatish
-**Windows'da eng oson yo'l:** `ishga_tushirish.bat` ni ikki marta bosing. U kutubxonalarni o'rnatadi,
-birinchi marta `.env` faylini yaratib Bloknotda ochadi, keyingi safar botni ishga tushiradi.
-
-Qo'lda (Linux / VPS):
+## Kompyuterda sinash
 ```bash
-python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env    # to'ldiring
-python bot.py
+cp .env.example .env          # DEBUG=1 qiling
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver    # http://localhost:8000 , admin: /boshqaruv/
+python manage.py test         # barcha testlar
 ```
 
-| `.env` | Qayerdan |
-|---|---|
-| `BOT_TOKEN` | @BotFather → /newbot |
-| `ADMIN_IDS` | @userinfobot (bir nechta bo'lsa vergul bilan) |
-| `LIC_SECRET` | `TezTezAdmin.bas` dagi `LIC_SECRET` (Tez-Tez va eski `TZ-` parollar) |
-| `PRICE`, `CARD_NUMBER`, `CARD_OWNER` | o'zingiz |
+## Serverga o'rnatish (Ubuntu VPS)
+```bash
+curl -fsSL https://raw.githubusercontent.com/sunnatillaavazov849-pixel/kalitbot/claude/practical-hawking-kbsu0h/deploy/ornatish.sh -o ornatish.sh
+sudo bash ornatish.sh sunat.cc
+```
+Python, gunicorn, Caddy (HTTPS avtomatik), har kunlik zaxira (`/var/backups/sunat`) o'rnatiladi.
+Yangilash: `sudo bash /opt/sunat/deploy/yangilash.sh`. Sozlamalar: `/opt/sunat/.env` (namuna: `.env.example`).
 
-Birinchi ishga tushishda Tez-Tez (`TT`) plagini bazaga o'zi qo'shiladi.
+Eski Telegram bot bazasini ko'chirish (plaginlar kalitlari, mijozlar, litsenziyalar, eski TZ- xaridlar):
+```bash
+sudo -u sunat /opt/sunat/venv/bin/python /opt/sunat/manage.py eski_bazani_kochir /yo'l/teztez.db
+```
+Eski mijoz saytda o'sha telefon raqami bilan ro'yxatdan o'tsa, litsenziyalari o'zi ulanadi.
 
-> ⚠️ Repo **ommaviy**. `.env` va `teztez.db` GitHub'ga yuklanmaydi. Bazada boshqa plaginlarning
-> maxfiy kalitlari saqlanadi — `teztez.db` nusxasini muntazam saqlab turing.
+## Admin panel (`/boshqaruv/`)
+- **Buyurtmalar:** chek rasmi, "Tasdiqlash" / "Rad etish" tugmalari; tepada kutilayotgan to'lovlar soni.
+- **Plaginlar:** nom, narx, rasm, `.gms` fayl, versiya; **maxfiy kalit** yaratilganda avtomatik paydo bo'ladi —
+  uni plagindagi `SunatLicense.bas` ga yozasiz.
+- **Litsenziyalar:** bloklash / blokdan chiqarish, to'lovsiz litsenziya berish (mijoz + plagin, holat "bo'sh").
+- **Yordam videolari:** YouTube havola yoki fayl — saytdagi "Yordam" sahifasida chiqadi.
 
-## Admin buyruqlari
-`/admin` — to'liq ro'yxat. Asosiylari:
-- `/plagin_qosh` — yangi plagin (belgi, nom, narx, tavsif, ZIP); bot maxfiy kalitni beradi;
-- `/plagin_zip TT`, `/plagin_narx TT ...`, `/plagin_yoq TT`, `/plagin_kalit TT`;
-- `/video_qosh`, `/videolar` — 📖 O'rnatish bo'limi videolari;
-- `/litsenziyalar`, `/bloklangan`, `/blokdan_chiqar ID`, `/litsenziya_ber USER_ID TT`;
-- `/kod TT-K7QM-3XPA` — kodni hisoblab ko'rish; `/royxat` — buyurtmalar; `/parol` — eski TZ- parol.
+## Windows dastur
+- C# WPF, .NET Framework 4.8, bitta `.exe`; interfeys XAML'siz (Linux'da ham yig'iladi).
+- GitHub Actions ("Mini ilova") `SunatPlaginlar.exe` va `SunatPlaginlar-Setup.exe` ni yig'adi.
+  `miniilova-v2.0.0` kabi teg qo'yilsa — Releases'ga chiqadi va saytdagi `/dastur/` havolalari ishlaydi.
+- Sayt manzili: `https://sunat.cc` (boshqa domen: `AppInfo.DefaultSiteUrl` yoki reyestr
+  `HKCU\Software\SunatCC\PlaginlarSozlama\SiteUrl`).
 
-## Yangi plagin qo'shish (to'liq)
-1. Botda `/plagin_qosh` → belgi (masalan `MB`) va boshqalar → bot **maxfiy kalit** beradi.
-2. `corel_palgin` dagi `SunatLicense.bas` ni plaginga import qiling, `PLUGIN_PREFIX` va `LIC_SECRET` ni yozing,
-   asosiy makros boshiga `If Not SunatCheck() Then Exit Sub`. `.gms` ni saqlang.
-3. Mijoz ZIP'ini yasang: Windows'da `.gms` faylni **`zip_yasash.bat`** ustiga sudrab tashlang
-   (`Sunat.cc Plaginlar.exe` shu papkada bo'lsin) va savollarga javob bering. Yoki buyruq bilan:
-   ```bash
-   python tools/zip_yasash.py --prefix MB --name "Manga Bitmap" --gms MangaBitmap.gms \
-       --exe "Sunat.cc Plaginlar.exe" --bot https://t.me/<bot_nomi>
-   ```
-4. Botda `/plagin_zip MB` → ZIP'ni yuboring.
+## Kodlar
+Bitta algoritm uch joyda: `shop/licensing.py` (sayt), `miniilova/SunatCore` (C#), `SunatLicense.bas` (VBA).
+`python tools/testvectors.py` → `miniilova/testvectors.json`; C# testi: `dotnet run --project miniilova/SunatCore.Tests`;
+CorelDRAW'da: `Alt+F8` → `SunatTekshiruv`.
 
-## Mini ilova
-- C# WPF, .NET Framework 4.8 (Windows 10/11 da bor), bitta `.exe`, interfeys XAML'siz (Linux'da ham yig'iladi).
-- **Yuklab olish:** GitHub → **Actions** → "Mini ilova" → oxirgi muvaffaqiyatli ishga tushirish → **Artifacts**.
-  `miniilova-v1.0.0` kabi teg qo'yilsa, **Releases** sahifasiga ham chiqadi.
-- Qo'lda yig'ish: `dotnet build miniilova/SunatPlaginlar -c Release`.
-- Kodni reyestrga yozadi: `HKCU\Software\SunatCC\Plaginlar\<PREFIKS>\Code`. Ichida maxfiy kalit yo'q.
-- CorelDRAW'ni reyestr va `Program Files\Corel` dan topadi; standart joy — foydalanuvchi GMS papkasi
-  (`%APPDATA%\Corel\...\Draw\GMS`), kerak bo'lsa dastur papkasi (administrator) yoki qo'lda tanlangan papka.
-
-## Kodlar va tekshiruv
-Bitta algoritm uch joyda: `litsenziya.py` (bot), `miniilova/SunatCore` (C#), `SunatLicense.bas` (VBA).
-- `python -m unittest discover tests` — bot, baza, to'liq Telegram oqimi (soxta sessiya bilan), algoritm;
-- `python tools/testvectors.py` → `miniilova/testvectors.json`;
-- `dotnet run --project miniilova/SunatCore.Tests` — C# natijalari Python bilan bir xilmi;
-- CorelDRAW'da `Alt+F8` → `SunatTekshiruv` — VBA natijalari va shu kompyuter ID'si.
-
-**Cheklov:** tizim oflayn ishlaydi. Mijoz kompyuteridagi himoyani qat'iyatli odam buzishi mumkin;
-ko'chirish cheklovlari va bazadagi tarix oddiy foydalanuvchilarni to'xtatadi.
+**Cheklov:** litsenziya mijoz kompyuterida oflayn tekshiriladi. Qat'iyatli odam buzishi mumkin; kompyuter
+almashtirish cheklovlari va tarix oddiy foydalanuvchilarni to'xtatadi.
