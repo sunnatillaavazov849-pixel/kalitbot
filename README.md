@@ -18,6 +18,10 @@ CorelDRAW plaginlarini sotish va faollashtirish tizimi (Telegram botsiz).
    (kuniga 1, jami 3 marta; keyin blok — admin blokdan chiqaradi) → yangi kompyuterda kod to'lovsiz.
 
 ## Kompyuterda sinash
+**Windows'da eng oson:** `saytni_ochish.bat` ni ikki marta bosing — hammasini o'zi tayyorlaydi, namuna ma'lumot qo'shadi
+va brauzerda `http://localhost:8000` ni ochadi (admin: `admin` / `admin12345`, faqat shu kompyuter uchun).
+
+Qo'lda:
 ```bash
 pip install -r requirements.txt
 cp .env.example .env          # DEBUG=1 qiling

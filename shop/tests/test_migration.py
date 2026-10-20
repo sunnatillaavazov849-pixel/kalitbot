@@ -129,3 +129,16 @@ class MigrationTest(TestCase):
         c.close()
         with self.assertRaises(CommandError):
             self.run_cmd()
+
+
+class DemoDataTest(TestCase):
+    def test_only_in_debug_and_idempotent(self):
+        with override_settings(DEBUG=False):
+            with self.assertRaises(CommandError):
+                call_command("demo_malumot", stdout=io.StringIO())
+        with override_settings(DEBUG=True, PRIVATE_ROOT=tempfile.mkdtemp()):
+            call_command("demo_malumot", stdout=io.StringIO())
+            call_command("demo_malumot", stdout=io.StringIO())
+        self.assertEqual(Plugin.objects.count(), 2)
+        self.assertEqual(User.objects.filter(username="admin").count(), 1)
+        self.assertTrue(User.objects.get(username="admin").check_password("admin12345"))
