@@ -129,6 +129,7 @@ class License(models.Model):
     last_deact_at = models.DateTimeField("oxirgi ko'chirish", null=True, blank=True)
     created_at = models.DateTimeField("yaratilgan", auto_now_add=True)
     activated_at = models.DateTimeField("faollashtirilgan", null=True, blank=True)
+    legacy_id = models.PositiveIntegerField("eski bazadagi raqam", null=True, blank=True, unique=True, editable=False)
 
     class Meta:
         verbose_name = "litsenziya"
@@ -167,6 +168,7 @@ class LegacyTzOrder(models.Model):
     created_at = models.CharField("sana", max_length=20, blank=True)
     license = models.OneToOneField(License, null=True, blank=True, on_delete=models.SET_NULL,
                                    verbose_name="o'tkazilgan litsenziya")
+    legacy_id = models.PositiveIntegerField("eski bazadagi raqam", null=True, blank=True, unique=True, editable=False)
 
     class Meta:
         verbose_name = "eski TZ- xarid"
